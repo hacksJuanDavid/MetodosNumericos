@@ -21,7 +21,7 @@ def display_app_inteface_conversor_bases():
     # Add a subtitle and a text
     st.text("Esto es una calculadora de bases numericas decimal,octal,hexadecimal,binaria.")
     # Create tables to display the conversion bases
-    tab1, tab2, tab3, tab4= st.tabs(["📈📟 base decimal", "🧮 base octal", "⌨️ base hexadecimal", "🖥 base binaria"])
+    tab1, tab2, tab3, tab4= st.tabs(["📈📟 Base decimal", "🧮 Base octal", "⌨️ Base hexadecimal", "🖥 Base binaria"])
 
     with tab1:
         # Add text conversion methot
