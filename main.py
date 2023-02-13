@@ -192,7 +192,7 @@ def display_app_inteface_conversor_bases():
             }
             </style>
             """, unsafe_allow_html=True)
-            st.markdown('<h1 class="big-font">Error: Ingrese un numero hexadecimal, sin caracteres string.</h1>', unsafe_allow_html=True)
+            st.markdown('<h1 class="big-font">Error: Ingrese un numero hexadecimal valido.</h1>', unsafe_allow_html=True)
             # Reset value input
             hexadecimal_input = 0
         else:
@@ -264,7 +264,7 @@ def display_app_inteface_conversor_bases():
             }
             </style>
             """, unsafe_allow_html=True)
-            st.markdown('<h1 class="big-font">Error: Ingrese un numero binario, sin caracteres string.</h1>', unsafe_allow_html=True)
+            st.markdown('<h1 class="big-font">Error: Ingrese un numero binario, sin caracteres 0 y 1.</h1>', unsafe_allow_html=True)
             # Reset value input
             binaria_input = 0
         else:
