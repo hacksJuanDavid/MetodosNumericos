@@ -30,6 +30,33 @@ def decimal_to_hex(num, precision):
     elif precision == "doble":
         return format(struct.unpack('!Q', struct.pack('!d', num))[0], 'x')
 
+# Function to convert binary to decimal
+def bin_to_decimal(bin_num, precision):
+    if precision == "simple":
+        sign = int(bin_num[0])
+        exponent = int(bin_num[1:9], 2)
+        mantissa = int(bin_num[9:], 2) / 2**23
+        decimal_exponent = exponent - 127
+        decimal_mantissa = 1 + mantissa
+        decimal_mantissa_str = str(decimal_mantissa)[2:18]
+        decimal_equivalent = (-1)**sign * decimal_mantissa * 2**decimal_exponent
+        return (sign, exponent, bin_num[1:], decimal_exponent, mantissa, decimal_mantissa_str, decimal_equivalent)
+    elif precision == "doble":
+        sign = int(bin_num[0])
+        exponent = int(bin_num[1:12], 2)
+        mantissa = int(bin_num[12:], 2) / 2**52
+        decimal_exponent = exponent - 1023
+        decimal_mantissa = 1 + mantissa
+        decimal_mantissa_str = str(decimal_mantissa)[2:18]
+        decimal_equivalent = (-1)**sign * decimal_mantissa * 2**decimal_exponent
+        return (sign, exponent, bin_num[1:], decimal_exponent, mantissa, decimal_mantissa_str, decimal_equivalent)
+    else:     
+        return "Error: precision no reconocida"
+
+
+
+
+
 # Function to main
 def main():
     num = float(input("Introduce un número decimal: "))
@@ -53,6 +80,28 @@ def main():
     print(f"Valor decimal equivalente: {decimal_equivalent}")
     print(f"Binario: {sign}{exponent}{mantissa}")
     print(f"Hexadecimal: {hex_doble}")
+
+
+    #print binary to presicion simple 
+    print("Binario a presición simple:")
+    bin_num = input("Introduce un número binario: ")
+    (sign, exponent, bin_num, decimal_exponent, mantissa, decimal_mantissa_str, decimal_equivalent) = bin_to_decimal(bin_num, "simple")
+    print(f"Signo: {sign}")
+    print(f"Exponente: {exponent} (decimal: {decimal_exponent})")
+    print(f"Mantissa: {bin_num} (decimal: {decimal_mantissa_str})")
+    print(f"Valor decimal equivalente: {round(decimal_equivalent,5)}")
+    print(f"Hexadecimal: {decimal_to_hex(decimal_equivalent, 'simple')}")
+
+    #print binary to presicion doble
+    print("Binario a presición doble:")
+    bin_num = input("Introduce un número binario: ")
+    (sign, exponent, bin_num, decimal_exponent, mantissa, decimal_mantissa_str, decimal_equivalent) = bin_to_decimal(bin_num, "doble")
+    print(f"Signo: {sign}")
+    print(f"Exponente: {exponent} (decimal: {decimal_exponent})")
+    print(f"Mantissa: {bin_num} (decimal: {decimal_mantissa_str})")
+    print(f"Valor decimal equivalente: {decimal_equivalent}")
+    print(f"Hexadecimal: {decimal_to_hex(decimal_equivalent, 'doble')}")
+
 
 if __name__ == "__main__":
     main()
