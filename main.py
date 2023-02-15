@@ -119,11 +119,15 @@ def display_app_inteface_conversor_bases():
 
         # Function verify if input is octal
         def is_octal(octal_input):
-            # Verify if input is octal
-            for i in octal_input:
-                if i not in "01234567":
+            # Verify if input is octal and decimal octal
+            if all(char in "01234567." for char in octal_input):
+                octal_input = octal_input.replace(".", "")
+                try:
+                    decimal = int(octal_input, 8)
+                    return decimal
+                except ValueError:
                     return False
-            return True
+            return False
 
         # If input is number convert octal
         if is_octal(octal_input):
@@ -186,13 +190,17 @@ def display_app_inteface_conversor_bases():
         # Add a text input for hexadecimal
         hexadecimal_input = st.text_input("Ingresar Numero:", value=0 ,key=2)
 
-        # function verification if input is hexadecimal
+        # function verification if input is hexadecimal and decimal hexadecimal
         def is_hexadecimal(hexadecimal_input):
-            try:
-                int(hexadecimal_input, 16)
-                return True
-            except ValueError:
-                return False
+            # Verify if input is hexadecimal and decimal hexadecimal
+            if all(char in "0123456789ABCDEFabcdef." for char in hexadecimal_input):
+                hexadecimal_input = hexadecimal_input.replace(".", "")
+                try:
+                    decimal = int(hexadecimal_input, 16)
+                    return decimal
+                except ValueError:
+                    return False
+            return False
 
         # Verify if input is hexadecimal
         if not is_hexadecimal(hexadecimal_input):
@@ -266,7 +274,7 @@ def display_app_inteface_conversor_bases():
             }
             </style>
             """, unsafe_allow_html=True)
-            st.markdown('<h1 class="big-font">Error: Ingrese un numero binario, sin caracteres 0 y 1.</h1>', unsafe_allow_html=True)
+            st.markdown('<h1 class="big-font">Error: Ingrese un numero estandar, sin caracteres 0 y 1.</h1>', unsafe_allow_html=True)
             # Reset value input
             binaria_input = 0
         else:
@@ -280,7 +288,7 @@ def display_app_inteface_conversor_bases():
             }
             </style>
             """, unsafe_allow_html=True)
-            st.markdown('<h1 class="big-font">Resultado Conversion Binaria a Decimal</h1>', unsafe_allow_html=True)
+            st.markdown('<h1 class="big-font">Resultado Conversion Binaria todas las bases</h1>', unsafe_allow_html=True)
             # conversor bases binaria
             st.text("Conversion Binaria a Decimal")
             st.text(convert(binaria_input,"binary","decimal"))
@@ -296,7 +304,7 @@ def display_app_inteface_conversor_bases_ieee754():
     # Add a subtitle and a text
     st.text("Esto es una calculadora de  simple precisión y doble precisión.")
     # Create tables to display the conversion bases
-    tab1, tab2, tab3, tab4 = st.tabs(["📟 Simple precisión", "🖥 Doble precisión","📟 Binario precisión simple", "🖥 Binario precisión doble"])
+    tab1, tab2, tab3, tab4 = st.tabs(["📟 Simple precisión", "🖥 Doble precisión","📟 Estandar precisión simple", "🖥 Estandar precisión doble"])
 
     with tab1:
         # Add text conversion methot simple precision
@@ -346,7 +354,7 @@ def display_app_inteface_conversor_bases_ieee754():
             st.text(f"Exponente: {exponent} (decimal: {decimal_exponent})")
             st.text(f"Mantissa: {mantissa} (decimal: {decimal_mantissa_str})")
             st.text(f"Valor decimal equivalente: {decimal_equivalent}")
-            st.text(f"Binario: {sign}{exponent}{mantissa}")
+            st.text(f"Estandar: {sign}{exponent}{mantissa}")
             st.text(f"Hexadecimal: {hex_simple}")
 
         except:
@@ -412,7 +420,7 @@ def display_app_inteface_conversor_bases_ieee754():
             st.text(f"Exponente: {exponent} (decimal: {decimal_exponent})")
             st.text(f"Mantissa: {mantissa} (decimal: {decimal_mantissa_str})")
             st.text(f"Valor decimal equivalente: {decimal_equivalent}")
-            st.text(f"Binario: {sign}{exponent}{mantissa}")
+            st.text(f"Estandar: {sign}{exponent}{mantissa}")
             st.text(f"Hexadecimal: {hex_doble}")
 
         except:
@@ -440,7 +448,7 @@ def display_app_inteface_conversor_bases_ieee754():
         }
         </style>
         """, unsafe_allow_html=True)
-        st.markdown('<h1 class="big-font">Conversion Binario a Decimal Presición Simple 32bits:</h1>', unsafe_allow_html=True)
+        st.markdown('<h1 class="big-font">Conversion Estandar a Decimal Presición Simple 32bits:</h1>', unsafe_allow_html=True)
 
         # Add a text input
         st.markdown("""
@@ -454,7 +462,7 @@ def display_app_inteface_conversor_bases_ieee754():
         """, unsafe_allow_html=True)
         
         # Add a text input for binary
-        binary_input = st.text_input("Ingresar Numero Binario:",value=0, key=6)
+        binary_input = st.text_input("Ingresar Numero Estandar:",value=0, key=6)
 
         # Verify if input is binaria
         if not is_binario_a_decimal(binary_input):
@@ -467,7 +475,7 @@ def display_app_inteface_conversor_bases_ieee754():
             }
             </style>
             """, unsafe_allow_html=True)
-            st.markdown('<h1 class="big-font">Error: Ingrese un numero binario, sin caracteres, 0 y 1 de 32bits.</h1>', unsafe_allow_html=True)
+            st.markdown('<h1 class="big-font">Error: Ingrese un numero Estandar, sin caracteres, 0 y 1 de 32bits.</h1>', unsafe_allow_html=True)
             # Reset value input
             binaria_input = 0
         else:
@@ -481,7 +489,7 @@ def display_app_inteface_conversor_bases_ieee754():
             }
             </style>
             """, unsafe_allow_html=True)
-            st.markdown('<h1 class="big-font">Resultado Conversion Binaria a Decimal</h1>', unsafe_allow_html=True)
+            st.markdown('<h1 class="big-font">Resultado Conversion Estandar a Decimal</h1>', unsafe_allow_html=True)
             (sign, exponent, bin_num, decimal_exponent, mantissa, decimal_mantissa_str, decimal_equivalent) = bin_to_decimal(binary_input, "simple")
             st.text(f"Signo: {sign}")
             st.text(f"Exponente: {exponent} (decimal: {decimal_exponent})")
@@ -499,7 +507,7 @@ def display_app_inteface_conversor_bases_ieee754():
         }
         </style>
         """, unsafe_allow_html=True)
-        st.markdown('<h1 class="big-font">Conversion Binario a Decimal Presición Doble 64bits:</h1>', unsafe_allow_html=True)
+        st.markdown('<h1 class="big-font">Conversion Estandar a Decimal Presición Doble 64bits:</h1>', unsafe_allow_html=True)
 
         # Add a text input
         st.markdown("""
@@ -513,7 +521,7 @@ def display_app_inteface_conversor_bases_ieee754():
         """, unsafe_allow_html=True)
 
         # Add a text input for binary
-        binary_input_doble = st.text_input("Ingresar Numero Binario:",value=0, key=7)
+        binary_input_doble = st.text_input("Ingresar Numero Estandar:",value=0, key=7)
 
         # Verify if input is binaria
         if not is_binario_a_decimal(binary_input_doble):
@@ -526,7 +534,7 @@ def display_app_inteface_conversor_bases_ieee754():
             }
             </style>
             """, unsafe_allow_html=True)
-            st.markdown('<h1 class="big-font">Error: Ingrese un numero binario, sin caracteres, 0 y 1 de 64bits.</h1>', unsafe_allow_html=True)
+            st.markdown('<h1 class="big-font">Error: Ingrese un numero Estandar, sin caracteres, 0 y 1 de 64bits.</h1>', unsafe_allow_html=True)
             # Reset value input
             binaria_input_doble = 0
         else:
@@ -540,7 +548,7 @@ def display_app_inteface_conversor_bases_ieee754():
             }
             </style>
             """, unsafe_allow_html=True)
-            st.markdown('<h1 class="big-font">Resultado Conversion Binaria a Decimal Doble</h1>', unsafe_allow_html=True)
+            st.markdown('<h1 class="big-font">Resultado Conversion Estandar a Decimal Doble</h1>', unsafe_allow_html=True)
             (sign, exponent, bin_num, decimal_exponent, mantissa, decimal_mantissa_str, decimal_equivalent) = bin_to_decimal(binary_input_doble, "doble")
             st.text(f"Signo: {sign}")
             st.text(f"Exponente: {exponent} (decimal: {decimal_exponent})")
