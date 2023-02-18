@@ -1,170 +1,105 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
-import sympy as sp
+import streamlit as st
+import numexpr as ne
+from sympy import sympify, lambdify, symbols
+def bisection(f, a, b, tolerance, max_iterations):
+    if f(a) * f(b) > 0:
+        return None, None, None, None
 
-
-
-def bisection(equation, a, b, error_tolerance):
-
-    # Convierte la cadena de caracteres en una función que puede evaluarse
-    equation = sp(equation)
-    # Inicializar i con un valor predeterminado
-    i = 0
-    # Comprueba si la función tiene valores opuestos en los límites
-    if equation.subs('x', a) * equation.subs('x', b) > 0:
-        return "La función no cambia de signo en el intervalo especificado. Inténtalo de nuevo con un intervalo diferente."
-
-    # Bucle while que se ejecuta hasta que la aproximación converge al valor deseado
-    while abs(b - a) > error_tolerance:
-        # Encuentra el punto medio del intervalo
+    iterations = 0
+    error = tolerance + 1
+    x = []
+    y = []
+    while error > tolerance and iterations < max_iterations:
         c = (a + b) / 2
-        # Incrementa el contador de iteraciones
-        i += 1
-        # Calcula los valores de la función en los puntos a, b y c
-        fa = equation.subs('x', a)
-        fb = equation.subs('x', b)
-        fc = equation.subs('x', c)
-        # Comprueba en qué mitad del intervalo se encuentra la raíz
-        if fa * fc < 0:
+        error = abs(b - a)
+        x.append(c)
+        y.append(f(c))
+
+        if f(c) == 0:
+            error = 0
+        elif f(a) * f(c) < 0:
             b = c
         else:
             a = c
-    # Retorna la aproximación de la raíz, la precisión y el número de iteraciones
-    return c, abs(b - a), i
+        iterations += 1
 
+    return c, error, iterations, x, y
 
+def regula_falsi(f, a, b, tolerance, max_iterations):
+    if f(a) * f(b) > 0:
+        return None, None, None, None
 
-def false_position(f, a, b, tol, max_iter):
+    iterations = 0
+    error = tolerance + 1
+    x = []
+    y = []
+    while error > tolerance and iterations < max_iterations:
+        c = b - ((f(b) * (b - a)) / (f(b) - f(a)))
+        error = abs(c - b)
+        x.append(c)
+        y.append(f(c))
 
-    fa = f(a)
-    fb = f(b)
+        if f(c) == 0:
+            error = 0
+        elif f(a) * f(c) < 0:
+            b = c
+        else:
+            a = c
+        iterations += 1
 
-    # Verificar que el signo de la función sea distinto en a y b
-    if fa * fb >= 0:
-        raise ValueError("La función debe tener signos opuestos en a y b")
+    return c, error, iterations, x, y
 
-    error = np.zeros(max_iter)
-    x = np.zeros(max_iter)
-    x[0] = a
+def solve_equation(method, f, a, b, tolerance, max_iterations=100):
+    if method == "bisection":
+        return bisection(f, a, b, tolerance, max_iterations)
+    elif method == "regula_falsi":
+        return regula_falsi(f, a, b, tolerance, max_iterations)
+    else:
+        return None, None, None, None
 
-    for i in range(max_iter):
-        # Calcular la siguiente aproximación
-        x[i+1] = (a * fb - b * fa) / (fb - fa)
-        fx = f(x[i+1])
+def read_equation(equation_str):
+    """
+    Parsea una cadena de texto con una ecuación y devuelve una función que la evalúa.
+    """
+    x = symbols('x')
+    equation = sympify(equation_str)
+    func = lambdify(x, equation)
+    return func
 
-        # Verificar si se alcanza la tolerancia
-        if abs(fx) < tol:
-            return x[i+1], i
+def main():
+    st.title("Root Finding Methods")
 
-        # Verificar si se ha excedido el número máximo de iteraciones
-        if i == max_iter - 1:
-            raise ValueError("El método de la regla falsa no converge después de %d iteraciones" % max_iter)
+    # Sidebar
+    st.sidebar.title("Settings")
+    method = st.sidebar.selectbox("Method", ["Bisection", "Regula Falsi"])
+    equation_str = st.sidebar.text_input("Equation", "sin(x)")
+    a = st.sidebar.number_input("a", value=-10.0, step=0.1)
+    b = st.sidebar.number_input("b", value=10.0, step=0.1)
+    tolerance = st.sidebar.number_input("Tolerance", value=1e-6, step=1e-7)
+    max_iterations = st.sidebar.number_input("Max iterations", value=100, step=1)
 
-        # Verificar si se ha encontrado la raíz
-        if abs(x[i+1] - x[i]) < tol:
-            return x[i+1], i
+    # Main page
+    st.header("Root Finding Method: {}".format(method))
+    st.write("Find the root of the equation {} in the interval [a, b] using {} method.".format(equation_str, method))
 
-       
+    func = read_equation(equation_str)
 
+    x = np.linspace(a, b, 1000)
+    y = func(x)
 
+    c, error, iterations, x_points, y_points = solve_equation(method.lower().replace(" ", "_"), func, a, b, tolerance, max_iterations)
 
-
-
-def f(eq):
-
-    return eval(eq)
-
-
-def solve_equation(method, eq, a, b, tol, max_iterations=100):
-
-
-    # Validar que `a` y `b` encierran una raíz
-    fa = f(a, eq)
-    fb = f(b, eq)
-    if fa * fb >= 0:
-        return None
-
-    # Inicializar variables
-    x = np.zeros(max_iterations)
-    error = np.zeros(max_iterations)
-
-    # Definir i con un valor predeterminado
-    i = 0
-    # Bisección
-    if method == 'Bisección':
-        for i in range(max_iterations):
-            # Calcular el punto medio del intervalo
-            c = (a + b) / 2
-            fc = f(c, eq)
-            x[i] = c
-
-            # Verificar si se encontró la raíz
-            if abs(fc) < tol:
-                break
-
-            # Reducir el intervalo
-            if fa * fc < 0:
-                b = c
-                fb = fc
-            else:
-                a = c
-                fa = fc
-
-            # Calcular el error
-            if i > 0:
-                error[i] = abs(x[i] - x[i-1]) / abs(x[i])
-
-        # Crear la gráfica y la tabla
+    if c is None:
+        st.warning("The method failed to converge.")
+    else:
+        st.success("The root is {:.6f} with an error of {:.6f} after {} iterations.".format(c, error, iterations))
         fig, ax = plt.subplots()
-        x_values = np.linspace(a, b, 100)
-        y_values = f(x_values, eq)
-        ax.plot(x_values, y_values)
-        ax.plot(x[:i+1], np.zeros(i+1), 'ro')
-        table_data = np.vstack((x[:i+1], error[1:i+1])).T
-        headers = ['Raíz', 'Error']
-        return fig, pd.DataFrame(table_data, columns=headers)
-
-    # Regula Falsi
-    elif method == 'Regula Falsi':
-        for i in range(max_iterations):
-            # Calcular la nueva aproximación
-            c = (a * fb - b * fa) / (fb - fa)
-            fc = f(c, eq)
-            x[i] = c
-
-            # Verificar si se encontró la raíz
-            if abs(fc) < tol:
-                break
-
-    # Reducir el intervalo
-        if fa * fc < 0:
-            b = c
-            fb = fc
-        else:
-            a = c
-            fa = fc
-
-        # Calcular el error
-        if i > 0:
-            error[i] = abs(x[i] - x[i-1]) / abs(x[i])
-
-    # Crear la gráfica y la tabla
-    fig, ax = plt.subplots()
-    x_values = np.linspace(a, b, 100)
-    y_values = f(x_values, eq)
-    ax.plot(x_values, y_values)
-    if i is None:
-        i = 0
-    ax.plot(x[:i+1], np.zeros(i+1), 'ro')
-    table_data = np.vstack((x[:i+1], error[1:i+1])).T
-    headers = ['Raíz', 'Error']
-    return fig, pd.DataFrame(table_data, columns=headers)
-
-# Ejemplo de uso de la función
-fig, table = solve_equation('Bisection', 'x**2 - 2', 0, 2, 0.0001)
-if fig is not None:
-    plt.show()
-    print(table)
-else:
-    print('No se encontró la raíz.')
+        ax.plot(x, y)
+        ax.plot(x_points, y_points, 'ro')
+        ax.axhline(y=0, color='k')
+        ax.axvline(x=c, color='k')
+        st.pyplot(fig)
+if __name__ == '__main__':
+    main()

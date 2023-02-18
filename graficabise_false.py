@@ -1,10 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import streamlit as st
+import numexpr as ne
 
-def f(x, equation):
-    return eval(equation)
-
-def bisection_method(f, a, b, tolerance, max_iterations):
+def bisection(f, a, b, tolerance, max_iterations):
     if f(a) * f(b) > 0:
         return None, None, None, None
 
@@ -28,7 +27,7 @@ def bisection_method(f, a, b, tolerance, max_iterations):
 
     return c, error, iterations, x, y
 
-def false_position_method(f, a, b, tolerance, max_iterations):
+def regula_falsi(f, a, b, tolerance, max_iterations):
     if f(a) * f(b) > 0:
         return None, None, None, None
 
@@ -52,23 +51,47 @@ def false_position_method(f, a, b, tolerance, max_iterations):
 
     return c, error, iterations, x, y
 
-def solve_equation(method, equation, a, b, tolerance, max_iterations=100):
-    if method == 'Bisection':
-        root, error, iterations, x, y = bisection_method(lambda x: f(x, equation), a, b, tolerance, max_iterations)
-    elif method == 'False Position':
-        root, error, iterations, x, y = false_position_method(lambda x: f(x, equation), a, b, tolerance, max_iterations)
+def solve_equation(method, f, a, b, tolerance, max_iterations=100):
+    if method == "bisection":
+        return bisection(f, a, b, tolerance, max_iterations)
+    elif method == "regula_falsi":
+        return regula_falsi(f, a, b, tolerance, max_iterations)
     else:
-        raise ValueError('Invalid method name')
+        return None, None, None, None
 
-    table_data = np.vstack((x[:iterations], y[:iterations], [error] * iterations)).T
-    table_header = ['x', 'f(x)', 'Error']
-    fig, ax = plt.subplots()
-    ax.plot(x, y)
-    ax.axhline(y=0, color='k')
-    ax.axvline(x=0, color='k')
-    ax.set_title(method + ' Method')
-    ax.set_xlabel('x')
-    ax.set_ylabel('f(x)')
-    table = ax.table(cellText=table_data, colLabels=table_header, loc='bottom')
+def main():
+    st.title("Root Finding Methods")
 
-    return root, error, iterations, fig, table
+    # Sidebar
+    st.sidebar.title("Settings")
+    method = st.sidebar.selectbox("Method", ["Bisection", "Regula Falsi"])
+    a = st.sidebar.number_input("a", value=-10.0, step=0.1)
+    b = st.sidebar.number_input("b", value=10.0, step=0.1)
+    tolerance = st.sidebar.number_input("Tolerance", value=1e-6, step=1e-7)
+    max_iterations = st.sidebar.number_input("Max iterations", value=100, step=1)
+
+    # Main page
+    st.header("Root Finding Method: {}".format(method))
+    st.write("Find the root of a function in the interval [a, b] using {} method.".format(method))
+
+    x = np.linspace(a, b, 1000)
+    y = ne.evaluate('sin(x)')
+
+    def func(x):
+        return ne.evaluate('sin(x)')
+#error
+    c, error, iterations, x_points, y_points = solve_equation(method.lower().replace(" ", "_"), func, a, b, tolerance, max_iterations)
+
+    if c is None:
+        st.warning("The method failed to converge.")
+    else:
+        st.success("The root is {:.6f} with an error of {:.6f} after {} iterations.".format(c, error, iterations))
+        fig, ax = plt.subplots()
+        ax.plot(x, y)
+        ax.plot(x_points, y_points, 'ro')
+        ax.axhline(y=0, color='k')
+        ax.axvline(x=c, color='k')
+        st.pyplot(fig)
+
+if __name__ == '__main__':
+    main()
