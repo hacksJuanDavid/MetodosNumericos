@@ -2,7 +2,7 @@ import streamlit as st # Import the streamlit library
 from streamlit_option_menu import option_menu # Import the streamlit_option_menu library
 from conversor_bases import convert # Import the convert function from the conversor_bases.py file
 from ieee754 import decimal_to_bin, decimal_to_hex , bin_to_decimal # Import the decimal_to_bin and decimal_to_hex functions from the ieee754.py file
-
+from graficabise_false import bisection_method, false_position_method,solve_equation
 
 # function verification if input is binaria decimal to binaria
 def is_binario_a_decimal(binaria_input):
@@ -556,6 +556,37 @@ def display_app_inteface_conversor_bases_ieee754():
             st.text(f"Valor decimal equivalente: {round(decimal_equivalent,5)}")
             st.text(f"Hexadecimal: {decimal_to_hex(decimal_equivalent, 'doble')}")
 
+def display_app_inteface_graficarbise_false():
+
+    st.title("Graficar bisecciones y falsas")
+    st.text("Esto es una calculadora para graficar ecuaciones con el metodo de biseccion y regla falsa.")
+
+    method = st.selectbox("Selecciona un método", ['Bisection', 'False Position'])
+    a = st.number_input("Límite izquierdo", value=-10.0)
+    b = st.number_input("Límite derecho", value=10.0)
+    tolerance = st.number_input("Tolerancia", value=0.001)
+
+    if st.button("Calcular"):
+    # Llamar a la función correspondiente
+        if method == 'Bisection':
+            root, error, iterations, fig, table = bisection_method(a, b, tolerance)
+        elif method == 'False Position':
+            root, error, iterations, fig, table = false_position_method(a, b, tolerance)
+        else:
+            st.error('Método no válido')
+
+    # Mostrar los resultados
+        if root is not None:
+            st.success(f"Raíz encontrada en {root} con {iterations} iteraciones")
+            st.write(f"Error: {error:.3e}")
+            st.pyplot(fig)
+            st.table(table)
+        else:
+                st.error("No se encontró la raíz")
+ 
+
+
+   
 # Create a function to display the app interface home page
 def display_home_page():
     # add a title to the app
@@ -579,8 +610,8 @@ def display_home_page():
 def display_app_inteface_sidebar_menu():
     selected = option_menu(
         menu_title="Menu Calculadora",
-        options=["Home", "Conversor Bases", "Conversor Bases IEEE754"],
-        icons=["house", "bank", "bank2"],
+        options=["Home", "Conversor Bases", "Conversor Bases IEEE754", "Biseyfalse"],
+        icons=["house", "bank", "bank2", "bank2"],
         menu_icon="calculator",
         default_index=0,
         orientation="horizontal",
@@ -593,7 +624,9 @@ def display_app_inteface_sidebar_menu():
         display_app_inteface_conversor_bases()
     elif selected == "Conversor Bases IEEE754":
         display_app_inteface_conversor_bases_ieee754()
-               
+    elif selected == "Biseyfalse":
+        display_app_inteface_graficarbise_false()
+            
 # Create a controller displays interface of the app
 def display_app_interface():
     display_app_inteface_sidebar_menu()
