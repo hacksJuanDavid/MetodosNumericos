@@ -54,7 +54,7 @@ def binary_to_decimal(binary):
             integer, 2) + sum([int(fraction[i]) * 2**(-i-1) for i in range(len(fraction))])
     else:
         decimal = int(binary, 2)
-    return decimal
+    return round(decimal, 5)
 
 # Function binary to octal
 def binary_to_octal(binary):
@@ -76,7 +76,7 @@ def octal_to_decimal(octal):
                        for i in range(len(fraction))])
     else:
         decimal = int(octal, 8)
-    return decimal
+    return round(decimal, 5)
 
 # Function octal to binary
 def octal_to_binary(octal):
@@ -96,7 +96,7 @@ def hexadecimal_to_decimal(hexadecimal):
             integer, 16) + sum([int(fraction[i], 16) * 16**(-i-1) for i in range(len(fraction))])
     else:
         decimal = int(hexadecimal, 16)
-    return decimal
+    return round(decimal, 5)
 
 # Function hexadecimal to binary
 def hexadecimal_to_binary(hexadecimal):

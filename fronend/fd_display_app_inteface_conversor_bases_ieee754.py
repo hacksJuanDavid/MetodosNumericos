@@ -58,14 +58,13 @@ def display_app_inteface_conversor_bases_ieee754():
                 # conversor bases decimal to simple precision
                 (sign, exponent, mantissa, decimal_exponent, decimal_mantissa, decimal_mantissa_str, decimal_equivalent) = decimal_to_bin(decimal_input_float_simple, "simple")
                 hex_simple = decimal_to_hex(decimal_input_float_simple, "simple")
-                st.subheader(f":red[Signo]: {sign}")
-                st.subheader(f":violet[Exponente]: {exponent} (decimal: {decimal_exponent})")
-                st.subheader(f":orange[Mantissa]: {mantissa} (decimal: {decimal_mantissa_str})")
-                st.subheader(f":green[Valor decimal equivalente]: {decimal_equivalent}")
-                st.subheader(f":green[Estandar]: :red[signo] :{sign} + :violet[exponente] :{exponent} + :orange[mantissa] :{mantissa}")
-                st.subheader(f":green[bits]: {len(sign+exponent+mantissa)}")
-                st.subheader(f":green[Hexadecimal]: {hex_simple}")
-         
+                st.text_input(":red[Signo]",value=sign, key="sign1")
+                st.text_input(":violet[Exponente]",value=exponent, key="exponent1")
+                st.text_input(":orange[Mantissa]",value=mantissa, key="mantissa1")
+                st.text_input(":green[Valor decimal equivalente]",value=round(decimal_equivalent,5), key="decimal_equivalent1")
+                st.text_input(":green[Estandar]",value="Signo:{"+sign+"}"+"Exponente:{"+exponent +"}"+"Mantissa:{"+mantissa+"}", key="estandar1")
+                st.text_input(":green[bits]",value=len(sign+exponent+mantissa), key="bits1")
+                st.text_input(":green[Hexadecimal]",value=hex_simple, key="hex1")
 
         except:
             # If input is string and number not convert to float mensaje error
@@ -129,13 +128,13 @@ def display_app_inteface_conversor_bases_ieee754():
                 # conversor bases decimal to double precision
                 (sign, exponent, mantissa, decimal_exponent, decimal_mantissa, decimal_mantissa_str, decimal_equivalent) = decimal_to_bin(decimal_input_float_doble, "doble")
                 hex_doble = decimal_to_hex(decimal_input_float_doble, "doble")
-                st.subheader(f":red[Signo]: {sign}")
-                st.subheader(f":violet[Exponente]: {exponent} (decimal: {decimal_exponent})")
-                st.subheader(f":orange[Mantissa]: {mantissa} (decimal: {decimal_mantissa_str})")
-                st.subheader(f":green[Valor decimal equivalente]: {decimal_equivalent}")
-                st.subheader(f":green[Estandar]: :red[signo] :{sign} + :violet[exponente] :{exponent} + :orange[mantissa] :{mantissa}")
-                st.subheader(f":green[bits]: {len(sign+exponent+mantissa)}")
-                st.subheader(f":green[Hexadecimal]: {hex_doble}")
+                st.text_input(":red[Signo]",value=sign, key="sign2")
+                st.text_input(":violet[Exponente]",value=exponent, key="exponent2")
+                st.text_input(":orange[Mantissa]",value=mantissa, key="mantissa2")
+                st.text_input(":green[Valor decimal equivalente]",value=round(decimal_equivalent,5), key="decimal_equivalent2")
+                st.text_input(":green[Estandar]",value="Signo:{"+sign+"}"+"Exponente:{"+exponent +"}"+"Mantissa:{"+mantissa+"}", key="estandar2")
+                st.text_input(":green[bits]",value=len(sign+exponent+mantissa), key="bits2")
+                st.text_input(":green[Hexadecimal]",value=hex_doble, key="hex2")
 
         except:
             # If input is string and number not convert to float mensaje error
@@ -217,11 +216,13 @@ def display_app_inteface_conversor_bases_ieee754():
                 """, unsafe_allow_html=True)
                 st.markdown('<h1 class="big-font">Resultado Conversion Estandar a Decimal</h1>', unsafe_allow_html=True)
                 (sign, exponent, bin_num, decimal_exponent, mantissa, decimal_mantissa_str, decimal_equivalent) = bin_to_decimal(binary_input, "simple")
-                st.subheader(f":red[Signo]: {sign}")
-                st.subheader(f":violet[Exponente]: {exponent} (decimal: {decimal_exponent})")
-                st.subheader(f":orange[Mantissa]: {bin_num} (decimal: {decimal_mantissa_str})")
-                st.subheader(f":green[Valor decimal equivalente]: {round(decimal_equivalent,5)}")
-                st.subheader(f":green[Hexadecimal]: {decimal_to_hex(decimal_equivalent, 'simple')}")
+                # print result conversion 
+                st.text_input(":red[Signo]",value=sign, key="signo32_result")
+                st.text_input(":violet[Exponente]",value=exponent, key="exponente32_result")
+                st.text_input(":orange[Mantissa]",value=bin_num, key="mantissa32_result")
+                st.text_input(":green[Valor decimal equivalente]",value=round(decimal_equivalent,5), key="decimal_equivalent32_result")
+                st.text_input(":green[Hexadecimal]",value=decimal_to_hex(decimal_equivalent, "simple"), key="hex32_result")
+
     with tab4:
         # Add text conversion methot binary to decimal
         st.markdown("""
@@ -288,8 +289,10 @@ def display_app_inteface_conversor_bases_ieee754():
                 """, unsafe_allow_html=True)
                 st.markdown('<h1 class="big-font">Resultado Conversion Estandar a Decimal Doble</h1>', unsafe_allow_html=True)
                 (sign, exponent, bin_num, decimal_exponent, mantissa, decimal_mantissa_str, decimal_equivalent) = bin_to_decimal(binary_input, "doble")
-                st.subheader(f":red[Signo]: {sign}")
-                st.subheader(f":violet[Exponente]: {exponent} (decimal: {decimal_exponent})")
-                st.subheader(f":orange[Mantissa]: {bin_num} (decimal: {decimal_mantissa_str})")
-                st.subheader(f":green[Valor decimal equivalente]: {round(decimal_equivalent,5)}")
-                st.subheader(f":green[Hexadecimal]: {decimal_to_hex(decimal_equivalent, 'doble')}")
+                 # print result conversion 
+                st.text_input(":red[Signo]",value=sign, key="signo32_result")
+                st.text_input(":violet[Exponente]",value=exponent, key="exponente32_result")
+                st.text_input(":orange[Mantissa]",value=bin_num, key="mantissa32_result")
+                st.text_input(":green[Valor decimal equivalente]",value=round(decimal_equivalent,5), key="decimal_equivalent32_result")
+                st.text_input(":green[Hexadecimal]",value=decimal_to_hex(decimal_equivalent, "doble"), key="hex32_result")
+                

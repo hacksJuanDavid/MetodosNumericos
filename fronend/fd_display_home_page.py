@@ -15,5 +15,5 @@ def display_home_page():
     }
     </style>
     """, unsafe_allow_html=True)
-    st.markdown('<h1 class="big-font">NumericLab🕵🏼</h1>',unsafe_allow_html=True)
+    st.markdown('<h1 class="big-font">Core73🕵🏼</h1>',unsafe_allow_html=True)
     st.image("./images/img.png", use_column_width=True)
