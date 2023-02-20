@@ -95,9 +95,9 @@ def display_app_inteface_conversor_bases():
                 """, unsafe_allow_html=True)
                 st.markdown('<h1 class="big-font">Resultado Conversion Decimal todas las bases</h1>', unsafe_allow_html=True)
                 # conversor bases decimal
-                st.subheader(f":green[Conversion Decimal a Binario:] {convert(decimal_input_float,'decimal','binary')}")
-                st.subheader(f":green[Conversion Decimal a Octal:] {convert(decimal_input_float,'decimal','octal')}")
-                st.subheader(f":green[Conversion Decimal a Hexadecimal:] {convert(decimal_input_float,'decimal','hexadecimal')}")
+                st.text_input(":green[Resultado decimal a binario]:", value=convert(decimal_input_float,'decimal','binary'), key="result_binary_1")
+                st.text_input(":green[Resultado decimal a octal:]", value=convert(decimal_input_float,'decimal','octal'), key="result_octal_1")
+                st.text_input(":green[Resultado decimal a hexadecimal:]", value=convert(decimal_input_float,'decimal','hexadecimal'), key="result_hexadecimal_1")
         except:
             # If input is string and number not convert to float mensaje error
             st.markdown("""
@@ -155,9 +155,9 @@ def display_app_inteface_conversor_bases():
                 """, unsafe_allow_html=True)
                 st.markdown('<h1 class="big-font">Resultado Conversion Octal todas las bases</h1>', unsafe_allow_html=True)
                 # conversor bases octal
-                st.subheader(f":green[Conversion Octal a Decimal:] {convert(octal_input,'octal','decimal')}")
-                st.subheader(f":green[Conversion Octal a Binario:] {convert(octal_input,'octal','binary')}")
-                st.subheader(f":green[Conversion Octal a Hexadecimal:] {convert(octal_input,'octal','hexadecimal')}")
+                st.text_input(":green[Resultado octal a decimal]:", value=convert(octal_input,'octal','decimal'), key="result_decimal_1")
+                st.text_input(":green[Resultado octal a binario:]", value=convert(octal_input,'octal','binary'), key="result_binary_2")
+                st.text_input(":green[Resultado octal a hexadecimal:]", value=convert(octal_input,'octal','hexadecimal'), key="result_hexadecimal_2")
         else:
             # If input is string and number not convert to float mensaje error
             st.markdown("""
@@ -228,9 +228,9 @@ def display_app_inteface_conversor_bases():
                 """, unsafe_allow_html=True)
                 st.markdown('<h1 class="big-font">Resultado Conversion Hexadecimal todas las bases</h1>', unsafe_allow_html=True)
                 # conversor bases hexadecimal
-                st.subheader(f":green[Conversion Hexadecimal a Decimal:] {convert(hexadecimal_input,'hexadecimal','decimal')}")
-                st.subheader(f":green[Conversion Hexadecimal a Binario:] {convert(hexadecimal_input,'hexadecimal','binary')}")
-                st.subheader(f":green[Conversion Hexadecimal a Octal:] {convert(hexadecimal_input,'hexadecimal','octal')}")
+                st.text_input(":green[Resultado hexadecimal a decimal]:", value=convert(hexadecimal_input,'hexadecimal','decimal'), key="result_decimal_2")
+                st.text_input(":green[Resultado hexadecimal a octal]:", value=convert(hexadecimal_input,'hexadecimal','octal'), key="result_octal_2")
+                st.text_input(":green[Resultado hexadecimal a binario]:", value=convert(hexadecimal_input,'hexadecimal','binary'), key="result_binary_3")
 
     with tab4:
         # Add text conversion methot
@@ -288,7 +288,6 @@ def display_app_inteface_conversor_bases():
                 """, unsafe_allow_html=True)
                 st.markdown('<h1 class="big-font">Resultado Conversion Binaria todas las bases</h1>', unsafe_allow_html=True)
                 # conversor bases binaria
-                st.subheader(f":green[Conversion Binaria a Decimal:] {convert(binaria_input,'binary','decimal')}")
-                st.subheader(f":green[Conversion Binaria a Octal:] {convert(binaria_input,'binary','octal')}")
-                st.subheader(f":green[Conversion Binaria a Hexadecimal:] {convert(binaria_input,'binary','hexadecimal')}")
-                
+                st.text_input(":green[Resultado binario a decimal]:", value=convert(binaria_input,'binary','decimal'), key="result_decimal_3")
+                st.text_input(":green[Resultado binario a octal]:", value=convert(binaria_input,'binary','octal'), key="result_octal_3")
+                st.text_input(":green[Resultado binario a hexadecimal]:", value=convert(binaria_input,'binary','hexadecimal'), key="result_hexadecimal_3")

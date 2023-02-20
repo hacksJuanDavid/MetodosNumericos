@@ -9,8 +9,8 @@ from sympy import sympify, lambdify, symbols
 def bisection(func, a, b, tolerance, max_iterations):
     # verificamos si los valores iniciales dan signos opuestos
     if func(a) * func(b) > 0:
-        print("Error: Los valores de a y b deben tener signos opuestos.")
-        return None, None, None, None
+        error = print("Error: Los valores de a y b deben tener signos opuestos.")
+        return None, None, None, None , error
     
     # inicializamos las variables
     c = (a + b) / 2
@@ -81,10 +81,25 @@ def read_equation(equation_str):
     """
     Parsea una cadena de texto con una ecuación y devuelve una función que la evalúa.
     """
-    x = symbols('x')
-    equation = sympify(equation_str)
-    func = lambdify(x, equation)
-    return func
+    #Create try except
+    try :
+        x = symbols('x')
+        equation = sympify(equation_str)
+        func = lambdify(x, equation)
+        return func
+    except:
+        print("Error: La ecuación no es válida.")
+        st.markdown("""
+            <style>
+            .big-font {
+                font-size:20px !important;
+                text-align: left;
+            }
+            </style>
+            """, unsafe_allow_html=True)
+        st.markdown('<h1 class="big-font">Error: La ecuación no es válida.</h1>', unsafe_allow_html=True)
+        return None
+   
 
 # Function to display the app interface
 def main():
@@ -107,18 +122,31 @@ def main():
 
     # Create button calcular
     if st.button("Calcular"):
-        # page header
-        st.header("Root Finding Method: {}".format(method))
-        st.write("Find the root of the equation {} in the interval [a, b] using {} method.".format(equation_str, method))
+        # Create try except equation validation
+        try:
+            # page header
+            st.header("Root Finding Method: {}".format(method))
+            st.write("Find the root of the equation {} in the interval [a, b] using {} method.".format(equation_str, method))
 
-        # read equation
-        func = read_equation(equation_str)
+            # read equation
+            func = read_equation(equation_str)
+            
+            x = np.linspace(a, b, 1000)
+            y = func(x)
 
-        x = np.linspace(a, b, 1000)
-        y = func(x)
+        except:
+            st.warning("Error: The equation is not valid.")
+            return
 
-        c, error, iterations, x_points, y_points = solve_equation(method.lower().replace(" ", "_"), func, a, b, float_tolerance, max_iterations)
+        # Create try except method solve_equation validation
+        try:
+            # calculate root
+            c, error, iterations, x_points, y_points = solve_equation(method.lower().replace(" ", "_"), func, a, b, float_tolerance, max_iterations)    
+        except:
+            st.warning("Error: The method failed to converge.")
+            return
 
+        # display results and plot
         if c is None:
             st.warning("The method failed to converge.")
         else:
