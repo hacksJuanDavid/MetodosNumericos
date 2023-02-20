@@ -53,10 +53,6 @@ def bin_to_decimal(bin_num, precision):
     else:     
         return "Error: precision no reconocida"
 
-
-
-
-
 # Function to main
 def main():
     num = float(input("Introduce un número decimal: "))
