@@ -98,6 +98,7 @@ def read_equation(equation_str):
             </style>
             """, unsafe_allow_html=True)
         st.markdown('<h1 class="big-font">Error: La ecuación no es válida.</h1>', unsafe_allow_html=True)
+        print(f"Error: La ecuación no es válida. Equation: {equation_str}")
         return None
    
 
@@ -169,9 +170,10 @@ def main():
 
             # Show iterations table
             expander = st.expander("Show iterations")
-            # data table iterations,left,right,root,function value,error
-            data = {'Left': x_points[:-1], 'Right': x_points[1:], 'Root': x_points[1:], 'Function Value': y_points[1:], 'Error': [np.nan] + [abs(x_points[i] - x_points[i-1]) for i in range(1, iterations)]}
             
+            #data table iterations,a,b,f(a),f(b),root,f(r),error
+            data = {'a': x_points[:-1], 'b': x_points[1:], 'f(a)': y_points[:-1], 'f(b)': y_points[1:], 'Root': x_points[1:], 'f(r)': y_points[1:], 'Error': [np.nan] + [abs(x_points[i] - x_points[i-1]) for i in range(1, iterations)]}
+
             expander.write("The method uses the following formula to find the next approximation:")
             expander.table(pd.DataFrame.from_dict(data, orient='index').transpose())
     
