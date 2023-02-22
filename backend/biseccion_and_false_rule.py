@@ -6,41 +6,29 @@ import pandas as pd
 from sympy import sympify, lambdify, symbols
 
 # Function to calculate the bisection method
-def bisection(func, a, b, tolerance, max_iterations):
-    # verificamos si los valores iniciales dan signos opuestos
-    if func(a) * func(b) > 0:
-        error = print("Error: Los valores de a y b deben tener signos opuestos.")
-        return None, None, None, None , error
-    
-    # inicializamos las variables
-    c = (a + b) / 2
-    error = np.inf
+def bisection(f, a, b, tolerance, max_iterations):
+    if f(a) * f(b) > 0:
+        return None, None, None, None
+
     iterations = 0
-    x_points = [a, b, c]
-    y_points = [func(a), func(b), func(c)]
-    
-    # iteramos hasta que se cumpla la tolerancia o se alcance el máximo de iteraciones
+    error = tolerance + 1
+    x = []
+    y = []
     while error > tolerance and iterations < max_iterations:
-        iterations += 1
-        
-        # elegimos el siguiente intervalo
-        if func(a) * func(c) < 0:
+        c = (a + b) / 2
+        error = abs(b - a)
+        x.append(c)
+        y.append(f(c))
+
+        if f(c) == 0:
+            error = 0
+        elif f(a) * f(c) < 0:
             b = c
         else:
             a = c
-        
-        # actualizamos la aproximación
-        c_prev = c
-        c = (a + b) / 2
-        
-        # calculamos el error
-        error = np.abs(c - c_prev)
-        
-        # guardamos los puntos para la tabla de iteraciones
-        x_points.append(c)
-        y_points.append(func(c))
-    
-    return c, error, iterations, x_points, y_points
+        iterations += 1
+
+    return c, error, iterations, x, y
 
 # Function to calculate the false position method
 def regula_falsi(f, a, b, tolerance, max_iterations):
@@ -81,14 +69,15 @@ def read_equation(equation_str):
     """
     Parsea una cadena de texto con una ecuación y devuelve una función que la evalúa.
     """
-    #Create try except
-    try :
+    try:
         x = symbols('x')
         equation = sympify(equation_str)
         func = lambdify(x, equation)
         return func
-    except:
-        print("Error: La ecuación no es válida.")
+    except Exception as e:
+        error_type = type(e).__name__
+        error_msg = str(e)
+        print(f"Error: La ecuación no es válida. {error_type}: {error_msg}")
         st.markdown("""
             <style>
             .big-font {
@@ -97,26 +86,28 @@ def read_equation(equation_str):
             }
             </style>
             """, unsafe_allow_html=True)
-        st.markdown('<h1 class="big-font">Error: La ecuación no es válida.</h1>', unsafe_allow_html=True)
-        print(f"Error: La ecuación no es válida. Equation: {equation_str}")
+        st.markdown(f'<h1 class="big-font">Error: La ecuación no es válida. {error_type}: {error_msg}</h1>', unsafe_allow_html=True)
         return None
    
 
 # Function to display the app interface
 def main():
     #title
-    st.title("Root Finding Methods")
+    st.title("Métodos de búsqueda de raíces")
 
     #header
-    st.header("Bisection and False Position Methods")
+    st.header("Métodos de bisección y falsa posición")
+
+    #subheader
+    st.subheader("Para tener en cuenta antes de usar la aplicación: \n 1. La ecuación debe ser una función de una variable. \n 2. El intervalo [a, b] debe contener una raíz. \n 3. La tolerancia debe ser un número positivo. \n 4. El número máximo de iteraciones debe ser un número entero positivo. \n 5. El método de bisección solo funciona para funciones continuas. \n 6. El método de falsa posición funciona para funciones continuas y discontinuas. \n 7. El método de falsa posición funciona mejor para funciones con raíces múltiples.")
 
     # Inputs
-    method = st.selectbox("Method", ["Bisection", "Regula Falsi"])
-    equation_str = st.text_input("Equation", "sin(x)")
+    method = st.selectbox("Método", ["Bisection", "Regula Falsi"])
+    equation_str = st.text_input("Ecuación", "sin(x)")
     a = st.number_input("a", value=-10.0, step=0.1)
     b = st.number_input("b", value=10.0, step=0.1)
-    tolerance = st.text_input("Tolerance",value=0.0001)
-    max_iterations = st.number_input("Max iterations", value=100, step=1)
+    tolerance = st.text_input("Tolerancia",value=0.0001)
+    max_iterations = st.number_input("Iteraciones máximas", value=100, step=1)
 
     # tolerance 
     float_tolerance = float(tolerance)
@@ -126,8 +117,8 @@ def main():
         # Create try except equation validation
         try:
             # page header
-            st.header("Root Finding Method: {}".format(method))
-            st.write("Find the root of the equation {} in the interval [a, b] using {} method.".format(equation_str, method))
+            st.header("Método de búsqueda de raíces: {}".format(method))
+            st.write("Encuentra la raíz de la ecuación {} en el intervalo [a, b] usando {} Método.".format(equation_str, method))
 
             # read equation
             func = read_equation(equation_str)
@@ -136,7 +127,7 @@ def main():
             y = func(x)
 
         except:
-            st.warning("Error: The equation is not valid.")
+            st.warning("Error: La ecuación no es válida.")
             return
 
         # Create try except method solve_equation validation
@@ -144,14 +135,14 @@ def main():
             # calculate root
             c, error, iterations, x_points, y_points = solve_equation(method.lower().replace(" ", "_"), func, a, b, float_tolerance, max_iterations)    
         except:
-            st.warning("Error: The method failed to converge.")
+            st.warning("Error: El método no pudo converger.")
             return
 
         # display results and plot
         if c is None:
-            st.warning("The method failed to converge.")
+            st.warning("El método no pudo converger.")
         else:
-            st.success("The root is {:.6f} with an error of {:.6f} after {} iterations.".format(c, error, iterations))
+            st.success("La raíz es {:.6f} con un error de {:.6f}  después {} iteraciones.".format(c, error, iterations))
             '''
             #matplotlib plot
             fig, ax = plt.subplots()
@@ -163,18 +154,18 @@ def main():
             '''
             # plotly plot
             fig = go.Figure()
-            fig.add_trace(go.Scatter(x=x, y=y, name="Function"))
-            fig.add_trace(go.Scatter(x=x_points, y=y_points, mode="markers", name="Iterations"))
-            fig.update_layout(title="Function and iterations", xaxis_title="x", yaxis_title="y")
+            fig.add_trace(go.Scatter(x=x, y=y, name="Función"))
+            fig.add_trace(go.Scatter(x=x_points, y=y_points, mode="markers", name="iteraciones"))
+            fig.update_layout(title="Función y iteraciones", xaxis_title="x", yaxis_title="y")
             st.plotly_chart(fig)
 
             # Show iterations table
-            expander = st.expander("Show iterations")
+            expander = st.expander("Ver iteraciones")
             
             #data table iterations,a,b,f(a),f(b),root,f(r),error
             data = {'a': x_points[:-1], 'b': x_points[1:], 'f(a)': y_points[:-1], 'f(b)': y_points[1:], 'Root': x_points[1:], 'f(r)': y_points[1:], 'Error': [np.nan] + [abs(x_points[i] - x_points[i-1]) for i in range(1, iterations)]}
 
-            expander.write("The method uses the following formula to find the next approximation:")
+            expander.write("El método utiliza la siguiente fórmula para encontrar la siguiente aproximación:")
             expander.table(pd.DataFrame.from_dict(data, orient='index').transpose())
     
 if __name__ == '__main__':

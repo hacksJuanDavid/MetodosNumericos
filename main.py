@@ -14,7 +14,7 @@ def display_app_inteface_sidebar_menu():
     # Create a sidebar menu
     selected = option_menu(
         menu_title="Menu Calculadora",
-        options=["Home", "Conversor Bases", "Conversor Bases IEEE754", "Biseccion y regal falsa"],
+        options=["Home", "Conversor Bases", "Conversor Bases IEEE754", "Biseccion y regla falsa"],
         icons=["house", "bank", "align-center", "bar-chart-line"],
         menu_icon="calculator",
         default_index=0,
@@ -28,7 +28,7 @@ def display_app_inteface_sidebar_menu():
         display_app_inteface_conversor_bases()
     elif selected == "Conversor Bases IEEE754":
         display_app_inteface_conversor_bases_ieee754()
-    elif selected == "Biseccion y regal falsa":
+    elif selected == "Biseccion y regla falsa":
         display_app_inteface_graficarbise_false()
             
 # Create a controller displays interface of the app
