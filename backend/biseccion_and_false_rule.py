@@ -5,8 +5,33 @@ import streamlit as st
 import pandas as pd
 from sympy import sympify, lambdify, symbols
 
+# Function to read the equation
+def read_equation(equation_str):
+    """
+    Parsea una cadena de texto con una ecuación y devuelve una función que la evalúa.
+    """
+    try:
+        x = symbols('x')
+        equation = sympify(equation_str)
+        func = lambdify(x, equation)
+        return func
+    except Exception as e:
+        error_type = type(e).__name__
+        error_msg = str(e)
+        print(f"Error: La ecuación no es válida. {error_type}: {error_msg}")
+        st.markdown("""
+            <style>
+            .big-font {
+                font-size:20px !important;
+                text-align: left;
+            }
+            </style>
+            """, unsafe_allow_html=True)
+        st.markdown(f'<h1 class="big-font">Error: La ecuación no es válida. {error_type}: {error_msg}</h1>', unsafe_allow_html=True)
+        return None
+
 # Function to calculate the bisection method
-def bisection(f, a, b, tolerance, max_iterations):
+def bisection(f, a, b, tolerance=1e-6, max_iterations=100):
     if f(a) * f(b) > 0:
         return None, None, None, None
 
@@ -31,7 +56,7 @@ def bisection(f, a, b, tolerance, max_iterations):
     return c, error, iterations, x, y
 
 # Function to calculate the false position method
-def regula_falsi(f, a, b, tolerance, max_iterations):
+def regula_falsi(f, a, b, tolerance=1e-6, max_iterations=100):
     if f(a) * f(b) > 0:
         return None, None, None, None
 
@@ -63,33 +88,7 @@ def solve_equation(method, f, a, b, tolerance, max_iterations=100):
         return regula_falsi(f, a, b, tolerance, max_iterations)
     else:
         return None, None, None, None
-
-# Function to read the equation
-def read_equation(equation_str):
-    """
-    Parsea una cadena de texto con una ecuación y devuelve una función que la evalúa.
-    """
-    try:
-        x = symbols('x')
-        equation = sympify(equation_str)
-        func = lambdify(x, equation)
-        return func
-    except Exception as e:
-        error_type = type(e).__name__
-        error_msg = str(e)
-        print(f"Error: La ecuación no es válida. {error_type}: {error_msg}")
-        st.markdown("""
-            <style>
-            .big-font {
-                font-size:20px !important;
-                text-align: left;
-            }
-            </style>
-            """, unsafe_allow_html=True)
-        st.markdown(f'<h1 class="big-font">Error: La ecuación no es válida. {error_type}: {error_msg}</h1>', unsafe_allow_html=True)
-        return None
    
-
 # Function to display the app interface
 def main():
     #title

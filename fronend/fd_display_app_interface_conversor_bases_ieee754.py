@@ -1,6 +1,6 @@
 import streamlit as st # Import the streamlit library
 from backend.ieee754 import decimal_to_bin, decimal_to_hex , bin_to_decimal # Import the decimal_to_bin and decimal_to_hex functions from the ieee754.py file
-from fronend.fd_display_app_inteface_conversor_bases import is_binario_a_decimal
+from fronend.fd_display_app_interface_conversor_bases import is_binario_a_decimal
 
 # Create a function to display the app interface conversor bases format ieee754
 def display_app_inteface_conversor_bases_ieee754():
