@@ -61,13 +61,26 @@ def secant_method(f, x0, x1, tolerance=1e-6, max_iter=100):
 def main():
     # Input equation
     equation_str = st.text_input("Ecuación", "x**3 - 2*x - 5")
+    # Input initial values
+    x0 = st.number_input("Valor inicial x0", 0.0)
+    # Input initial values
+    x1 = st.number_input("Valor inicial x1", 0.0)
+    # Input tolerance
+    tolerance = st.text_input("Tolerancia",0.0001)
+    # Input max iterations
+    max_iter = st.number_input("Número máximo de iteraciones", 100)
+    
+    # Convert tolerance to float
+    tolerance = float(tolerance)
+
+    # Read equation
     f = read_equation(equation_str)
 
     # Create button to calculate the root
     if st.button("Calcular"):
 
         # Calculate root approximation
-        raiz,iteraciones = secant_method(f, 2, 3)
+        raiz,iteraciones = secant_method(f, x0, x1, tolerance, max_iter)
 
         # Print success message
         st.success("La raíz es {} después {} iteraciones.".format(raiz, len(iteraciones)))
