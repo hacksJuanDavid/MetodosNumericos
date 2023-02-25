@@ -62,9 +62,9 @@ def main():
     # Input equation
     equation_str = st.text_input("Ecuación", "x**3 - 2*x - 5")
     # Input initial values
-    x0 = st.number_input("Valor inicial x0", 0.0)
+    x0 = st.number_input("Valor inicial x0", value=1.0)
     # Input initial values
-    x1 = st.number_input("Valor inicial x1", 0.0)
+    x1 = st.number_input("Valor inicial x1", value=3.0)
     # Input tolerance
     tolerance = st.text_input("Tolerancia",0.0001)
     # Input max iterations
@@ -79,11 +79,17 @@ def main():
     # Create button to calculate the root
     if st.button("Calcular"):
 
-        # Calculate root approximation
-        raiz,iteraciones = secant_method(f, x0, x1, tolerance, max_iter)
+        # Create try except to catch errors
+        try:
+            # Calculate root approximation
+            raiz,iteraciones = secant_method(f, x0, x1, tolerance, max_iter)
 
-        # Print success message
-        st.success("La raíz es {} después {} iteraciones.".format(raiz, len(iteraciones)))
+            # Print success message
+            st.success("La raíz es {} después {} iteraciones.".format(raiz, len(iteraciones)))
+        except:
+            # Print error message
+            st.warning("Error: Defina correctamente los datos a evaluar.")
+            return
 
         # Create table with iterations
         columnas = ["Iteración", "x0", "x1", "raiz", "f(raiz)", "error"]
