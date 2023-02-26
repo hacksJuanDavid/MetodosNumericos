@@ -6,6 +6,7 @@ from fronend.fd_display_app_interface_graficarbise_false import display_app_inte
 from fronend.fd_display_home_page import display_home_page # Import the display_home_page function from the fd_display_home_page.py file
 from fronend.fd_display_app_interface_logo import display_app_interface_logo # Import the display_app_interface_logo function from the fd_display_app_interface_logo.py file
 from fronend.fd_display_app_interface_m_secante import display_m_secante # Import the display_m_secante function from the fd_display_app_interface_m_secante.py file
+from fronend.fd_display_app_interface_derivative_calculator import display_derivative_calculator # Import the display_derivative_calculator function from the fd_display_app_interface_derivative_calculator.py file
 
 
 # Create a function to display the app interface sidebar menu
@@ -16,8 +17,8 @@ def display_app_inteface_sidebar_menu():
     # Create a sidebar menu
     selected = option_menu(
         menu_title="Menu Calculadora",
-        options=["Home", "Conversor Bases", "Conversor Bases IEEE754", "Biseccion y regla falsa","Método de la secante"],
-        icons=["house", "bank", "align-center", "bar-chart-line"],
+        options=["Home", "Conversor Bases", "Conversor Bases IEEE754", "Biseccion y regla falsa","Método de la secante", "Derivadas"],
+        icons=["house", "bank", "align-center", "bar-chart-line", "bar-chart-line"],
         menu_icon="calculator",
         default_index=0,
         orientation="horizontal",
@@ -33,7 +34,9 @@ def display_app_inteface_sidebar_menu():
     elif selected == "Biseccion y regla falsa":
         display_app_inteface_graficarbise_false()
     elif selected == "Método de la secante":
-        display_m_secante()    
+        display_m_secante() 
+    elif selected == "Derivadas":
+        display_derivative_calculator()    
             
 # Create a controller displays interface of the app
 def display_app_interface():
