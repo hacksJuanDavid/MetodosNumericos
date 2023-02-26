@@ -2,6 +2,8 @@ import sympy as sp # Import sympy library
 import streamlit as st # Import sympy library 
 import sympy as sp # Import sympy library 
 import streamlit as st # Import streamlit library 
+import plotly.graph_objects as go # Import plotly library
+import numpy as np # Import numpy library
 
 def calcular_derivadas(funcion, xo, n):
     x = sp.symbols('x')
@@ -33,20 +35,49 @@ def main():
     # Calculate the derivatives
     resultados = calcular_derivadas(funcion, xo, n)
 
-    # Show the results
-    if 'error' in resultados:
-        st.error(resultados['error'])
-    else:
-        st.write(f"La función original es: {funcion}")
+    if st.button("Calcular"):
+        # Show the results
+        if 'error' in resultados:
+            st.error(resultados['error'])
+        else:
+            # Plot the function and its derivatives
+            fig = go.Figure()
 
-        for i, d in enumerate(resultados['derivadas']):
-            # Check if the derivative is equal to the previous one
-            if i > 0 and str(d) == str(resultados['derivadas'][i-1]):
-                continue
+            # Plot the function
+            x = np.linspace(xo - 5, xo + 5, 1000)
+            y = eval(funcion)
+            fig.add_trace(go.Scatter(x=x, y=y, name='Función Original'))
 
-            st.write(f"La derivada {i} es: {d}")
-            st.write(f"El valor de la derivada {i} en {xo} es: {resultados['resultados'][i]}")
+            # Plot the derivatives
+            for i, d in enumerate(resultados['derivadas']):
+                # Check if the derivative is equal to the previous one
+                if i > 0 and str(d) == str(resultados['derivadas'][i-1]):
+                    continue
 
+                # Evaluate the derivative at different points
+                x = np.linspace(xo - 2, xo + 2, 1000)
+                y = eval(str(d))
+                fig.add_trace(go.Scatter(x=x, y=y, name=f"Derivada {i}"))
+
+            # Show the results in Latex
+            st.latex(f"f(x) = {funcion}")
+            st.latex("\\\\")
+            st.latex("Para \\ x = {0}".format(xo))
+            st.latex("\\\\")
+
+            for i, d in enumerate(resultados['derivadas']):
+                # Check if the derivative is equal to the previous one
+                if i > 0 and str(d) == str(resultados['derivadas'][i-1]):
+                    continue
+
+                st.latex("\\frac{{d^{0}}}{{dx^{0}}}f(x) = {1}".format(i, d))
+                st.latex("\\\\")
+
+                st.latex("\\frac{{d^{0}}}{{dx^{0}}}f({1}) = {2}".format(i, xo, resultados['resultados'][i]))
+                st.latex("\\\\")
+            # Set the layout of the plot and show it in the app
+            fig.update_layout(title='Función y derivadas', xaxis_title='x', yaxis_title='f(x)')
+            st.plotly_chart(fig)
 # Run main function
 if __name__ == "__main__":
     main()
