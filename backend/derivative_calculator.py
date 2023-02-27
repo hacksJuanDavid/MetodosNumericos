@@ -1,83 +1,77 @@
-import sympy as sp # Import sympy library 
-import streamlit as st # Import sympy library 
-import sympy as sp # Import sympy library 
-import streamlit as st # Import streamlit library 
-import plotly.graph_objects as go # Import plotly library
-import numpy as np # Import numpy library
+import streamlit as st
+import sympy as sp
+import plotly.graph_objects as go
+import numpy as np
 
-def calcular_derivadas(funcion, xo, n):
+# function to calculate the derivates 2
+def calcular_derivadas2(funcion, n=1, xO=2.5):
+    # Define la variable simbólica x
     x = sp.symbols('x')
-    try:
-        expr = sp.sympify(funcion)
+    # Calcular la derivada n veces
+    derivada = funcion
+    for i in range(n):
+        derivada = sp.diff(derivada, x)
 
-        # Calculate the first n derivatives and evaluate at Xo
-        derivadas = [expr]
-        for i in range(1, n):
-            derivada = sp.diff(derivadas[i-1], x)
-            derivadas.append(derivada)
+    # Simplificar la derivada
+    derivada_simplificada = sp.simplify(derivada)
 
-        resultados = [d.evalf(subs={x: xo}) for d in derivadas]
-        return {'derivadas': derivadas, 'resultados': resultados}
+    # Evaluar la derivada en un punto
+    valor_derivada = derivada_simplificada.subs(x, xO)
+    
+    # Save the results in a dictionary
+    resultados = {
+        'funcion': funcion,
+        'derivada0': derivada,
+        'derivada': derivada_simplificada,
+        'valor_derivada': valor_derivada,
+        'x': x
+    }
 
-    except (sp.SympifyError, TypeError):
-        return {'error': 'Por favor, introduce una función válida.'}
+    # Return the results
+    return resultados
+
 
 def main():
     st.title("Calculadora de Derivadas")
 
     # Ask the user for the function and the value of Xo
     funcion = st.text_input("Introduce la función:")
-    xo = st.number_input("Introduce el valor de Xo:", value=0.0)
+    xO = st.number_input("Introduce el valor de Xo:", value=0.0)
 
     # Ask the user for the number of derivatives to calculate
     n = st.slider("Número de derivadas a calcular:", min_value=1, max_value=10, value=1, step=1)
 
     # Calculate the derivatives
-    resultados = calcular_derivadas(funcion, xo, n)
+    resultados = calcular_derivadas2(funcion, n, xO)
 
     if st.button("Calcular"):
-        # Show the results
-        if 'error' in resultados:
-            st.error(resultados['error'])
-        else:
-            # Plot the function and its derivatives
-            fig = go.Figure()
+    # Show the results in LaTeX
+        st.latex(r"\text{La función original es: } f(x) = " + sp.latex(resultados['funcion']))
+        st.latex(r"\text{La primera derivada sin simplificar es: } f^{(1)}(x) = " + sp.latex(resultados['derivada0']))
+        st.latex(r"\text{La primera derivada simplificada es: } f^{(1)}(x) = " + sp.latex(resultados['derivada']))
+        st.latex(r"\text{El valor de la primera derivada en } xO=2.5 \text{ es: } f^{(1)}(" + str(resultados['x']) + r") = " + sp.latex(resultados['valor_derivada']))
+        
+        # Define los valores de x para graficar
+        x_vals = np.linspace(-10, 10, 200)
 
-            # Plot the function
-            x = np.linspace(xo - 5, xo + 5, 1000)
-            y = eval(funcion)
-            fig.add_trace(go.Scatter(x=x, y=y, name='Función Original'))
+        # Evalúa la derivada en los valores de x
+        derivada_vals = [float(resultados['derivada'].subs(resultados['x'], x_val)) for x_val in x_vals]
 
-            # Plot the derivatives
-            for i, d in enumerate(resultados['derivadas']):
-                # Check if the derivative is equal to the previous one
-                if i > 0 and str(d) == str(resultados['derivadas'][i-1]):
-                    continue
+        # Crea la figura
+        fig = go.Figure()
 
-                # Evaluate the derivative at different points
-                x = np.linspace(xo - 2, xo + 2, 1000)
-                y = eval(str(d))
-                fig.add_trace(go.Scatter(x=x, y=y, name=f"Derivada {i}"))
+        # Agrega la curva de la derivada a la figura
+        fig.add_trace(go.Scatter(x=x_vals, y=derivada_vals, mode='lines'))
 
-            # Show the results in Latex
-            st.latex(f"f(x) = {funcion}")
-            st.latex("\\\\")
-            st.latex("Para \\ x = {0}".format(xo))
-            st.latex("\\\\")
+        # Agrega un título y etiquetas para los ejes
+        fig.update_layout(title="Gráfica de la derivada", xaxis_title="x", yaxis_title="f'(x)")
 
-            for i, d in enumerate(resultados['derivadas']):
-                # Check if the derivative is equal to the previous one
-                if i > 0 and str(d) == str(resultados['derivadas'][i-1]):
-                    continue
-
-                st.latex("\\frac{{d^{0}}}{{dx^{0}}}f(x) = {1}".format(i, d))
-                st.latex("\\\\")
-
-                st.latex("\\frac{{d^{0}}}{{dx^{0}}}f({1}) = {2}".format(i, xo, resultados['resultados'][i]))
-                st.latex("\\\\")
-            # Set the layout of the plot and show it in the app
-            fig.update_layout(title='Función y derivadas', xaxis_title='x', yaxis_title='f(x)')
-            st.plotly_chart(fig)
+        # Muestra la figura
+        st.plotly_chart(fig)
+            
+            
+   
+        
 # Run main function
 if __name__ == "__main__":
     main()
