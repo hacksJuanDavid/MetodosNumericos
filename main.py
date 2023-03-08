@@ -7,6 +7,8 @@ from fronend.fd_display_home_page import display_home_page # Import the display_
 from fronend.fd_display_app_interface_logo import display_app_interface_logo # Import the display_app_interface_logo function from the fd_display_app_interface_logo.py file
 from fronend.fd_display_app_interface_m_secante import display_m_secante # Import the display_m_secante function from the fd_display_app_interface_m_secante.py file
 from fronend.fd_display_app_interface_derivative_calculator import display_derivative_calculator # Import the display_derivative_calculator function from the fd_display_app_interface_derivative_calculator.py file
+from fronend.fd_display_app_interface_raicesPolinomios import display_raicesPolinomios # Import the display_raicesPolinomios function from the fd_display_app_interface_raicesPolinomios.py file
+from fronend.fd_display_app_interface_newton_raphson import display_newtonRaphson # Import the display_newtonRaphson function from the fd_display_app_interface_newton_raphson.py file
 
 
 # Create a function to display the app interface sidebar menu
@@ -17,7 +19,7 @@ def display_app_inteface_sidebar_menu():
     # Create a sidebar menu
     selected = option_menu(
         menu_title="Menu Calculadora",
-        options=["Home", "Conversor Bases", "Conversor Bases IEEE754", "Biseccion y regla falsa","Método de la secante", "Derivadas"],
+        options=["Home", "Conversor Bases", "Conversor Bases IEEE754", "Biseccion y regla falsa","Método de la secante", "Derivadas", "Raices de polinomios","Newton Raphson"],
         icons=["house", "bank", "align-center", "bar-chart-line", "bar-chart-line"],
         menu_icon="calculator",
         default_index=0,
@@ -36,7 +38,11 @@ def display_app_inteface_sidebar_menu():
     elif selected == "Método de la secante":
         display_m_secante() 
     elif selected == "Derivadas":
-        display_derivative_calculator()    
+        display_derivative_calculator()
+    elif selected == "Raices de polinomios":
+        display_raicesPolinomios()
+    elif selected == "Newton Raphson":
+        display_newtonRaphson()    
             
 # Create a controller displays interface of the app
 def display_app_interface():

@@ -31,7 +31,7 @@ def read_equation(equation_str):
         return None
 
 # Function to calculate the bisection method
-def bisection(f, a, b, tolerance=1e-6, max_iterations=100):
+def bisection(f, a, b, tolerance=1e-6, max_iterations=100, safety_factor=1.5):
     if f(a) * f(b) > 0:
         return None, None, None, None
 
@@ -52,11 +52,20 @@ def bisection(f, a, b, tolerance=1e-6, max_iterations=100):
         else:
             a = c
         iterations += 1
+        
+        # Convergence condition
+        if error <= tolerance:
+            break
+        # Stop condition
+        if iterations >= 2:
+            last_error = abs(x[-1] - x[-2])
+            if last_error <= tolerance * safety_factor:
+                break
 
     return c, error, iterations, x, y
 
-# Function to calculate the false position method
-def regula_falsi(f, a, b, tolerance=1e-6, max_iterations=100):
+# Function to calculate the false rule method
+def regula_falsi(f, a, b, tolerance=1e-6, max_iterations=100, safety_factor=1.5):
     if f(a) * f(b) > 0:
         return None, None, None, None
 
@@ -78,8 +87,18 @@ def regula_falsi(f, a, b, tolerance=1e-6, max_iterations=100):
             a = c
         iterations += 1
 
-    return c, error, iterations, x, y
+        # Convergence condition
+        if error <= tolerance:
+            break
 
+        # Stop condition
+        if iterations >= 2:
+            last_error = abs(x[-1] - x[-2])
+            if last_error <= tolerance * safety_factor:
+                break
+
+    return c, error, iterations, x, y
+    
 # Function to calculate the root of an equation
 def solve_equation(method, f, a, b, tolerance, max_iterations=100):
     if method == "bisection":
@@ -102,11 +121,11 @@ def main():
 
     # Inputs
     method = st.selectbox("Método", ["Bisection", "Regula Falsi"])
-    equation_str = st.text_input("Ecuación", "sin(x)")
+    equation_str = st.text_input("Ecuación", "(sin(x)**2) - exp(-x**2) + 6*x**2 - 4")
     a = st.number_input("a", value=-10.0, step=0.1)
     b = st.number_input("b", value=10.0, step=0.1)
     tolerance = st.text_input("Tolerancia",value=0.0001)
-    max_iterations = st.number_input("Iteraciones máximas", value=100, step=1)
+    #max_iterations = st.number_input("Iteraciones máximas", value=100, step=1)
 
     # tolerance 
     float_tolerance = float(tolerance)
@@ -132,7 +151,7 @@ def main():
         # Create try except method solve_equation validation
         try:
             # calculate root
-            c, error, iterations, x_points, y_points = solve_equation(method.lower().replace(" ", "_"), func, a, b, float_tolerance, max_iterations)    
+            c, error, iterations, x_points, y_points = solve_equation(method.lower().replace(" ", "_"), func, a, b, float_tolerance)    
         except:
             st.warning("Error: El método no pudo converger.")
             return
@@ -155,6 +174,9 @@ def main():
             fig = go.Figure()
             fig.add_trace(go.Scatter(x=x, y=y, name="Función"))
             fig.add_trace(go.Scatter(x=x_points, y=y_points, mode="markers", name="iteraciones"))
+            # point root
+            fig.add_trace(go.Scatter(x=[c], y=[0], mode="markers", name="Raíz"))
+
             fig.update_layout(title="Función y iteraciones", xaxis_title="x", yaxis_title="y")
             st.plotly_chart(fig)
 

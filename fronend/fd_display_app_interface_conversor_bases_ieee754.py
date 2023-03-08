@@ -63,7 +63,7 @@ def display_app_inteface_conversor_bases_ieee754():
                 st.text_input(":orange[Mantissa]",value=mantissa, key="mantissa1")
                 st.text_input(":green[Valor decimal equivalente]",value=round(decimal_equivalent,5), key="decimal_equivalent1")
                 st.text_input(":green[Estandar]",value="Signo:{"+sign+"}"+"Exponente:{"+exponent +"}"+"Mantissa:{"+mantissa+"}", key="estandar1")
-                st.text_input(":green[bits]",value=len(sign+exponent+mantissa), key="bits1")
+                st.text_input(":green[Cantidad bits]",value=len(sign+exponent+mantissa), key="bits1")
                 st.text_input(":green[Hexadecimal]",value=hex_simple, key="hex1")
 
         except:
@@ -133,7 +133,7 @@ def display_app_inteface_conversor_bases_ieee754():
                 st.text_input(":orange[Mantissa]",value=mantissa, key="mantissa2")
                 st.text_input(":green[Valor decimal equivalente]",value=round(decimal_equivalent,5), key="decimal_equivalent2")
                 st.text_input(":green[Estandar]",value="Signo:{"+sign+"}"+"Exponente:{"+exponent +"}"+"Mantissa:{"+mantissa+"}", key="estandar2")
-                st.text_input(":green[bits]",value=len(sign+exponent+mantissa), key="bits2")
+                st.text_input(":green[Cantidad bits]",value=len(sign+exponent+mantissa), key="bits2")
                 st.text_input(":green[Hexadecimal]",value=hex_doble, key="hex2")
 
         except:

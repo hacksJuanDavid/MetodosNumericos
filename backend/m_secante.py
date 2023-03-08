@@ -59,8 +59,10 @@ def secant_method(f, x0, x1, tolerance=1e-6, max_iter=100):
     raise ValueError("La función no converge.")
 
 def main():
+    # Title
+    st.title("Método de la Secante")
     # Input equation
-    equation_str = st.text_input("Ecuación", "x**3 - 2*x - 5")
+    equation_str = st.text_input("Ecuación", "exp(-0.5*x) + 3.5*log(x) - 5.25")
     # Input initial values
     x0 = st.number_input("Valor inicial x0", value=1.0)
     # Input initial values
@@ -68,7 +70,7 @@ def main():
     # Input tolerance
     tolerance = st.text_input("Tolerancia",0.0001)
     # Input max iterations
-    max_iter = st.number_input("Número máximo de iteraciones", 100)
+    #max_iter = st.number_input("Número máximo de iteraciones", 100)
     
     # Convert tolerance to float
     tolerance = float(tolerance)
@@ -82,7 +84,7 @@ def main():
         # Create try except to catch errors
         try:
             # Calculate root approximation
-            raiz,iteraciones = secant_method(f, x0, x1, tolerance, max_iter)
+            raiz,iteraciones= secant_method(f, x0, x1, tolerance)
 
             # Print success message
             st.success("La raíz es {} después {} iteraciones.".format(raiz, len(iteraciones)))

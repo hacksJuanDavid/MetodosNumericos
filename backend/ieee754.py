@@ -1,4 +1,5 @@
 import struct # Import struct library 
+from backend.conversor_bases import convert # Import the convert function from the conversor_bases.py file
 
 # Function to convert decimal to binary
 def decimal_to_bin(num, precision):
@@ -26,9 +27,9 @@ def decimal_to_bin(num, precision):
 # Function to convert decimal to hexadecimal
 def decimal_to_hex(num, precision):
     if precision == "simple":
-        return format(struct.unpack('!I', struct.pack('!f', num))[0], 'x')
+        return convert(num,"decimal", "hexadecimal")
     elif precision == "doble":
-        return format(struct.unpack('!Q', struct.pack('!d', num))[0], 'x')
+        return convert(num,"decimal", "hexadecimal")
 
 # Function to convert binary to decimal
 def bin_to_decimal(bin_num, precision):
