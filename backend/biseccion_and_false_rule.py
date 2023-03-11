@@ -121,7 +121,7 @@ def main():
 
     # Inputs
     method = st.selectbox("Método", ["Bisection", "Regula Falsi"])
-    equation_str = st.text_input("Ecuación", "(sin(x)**2) - exp(-x**2) + 6*x**2 - 4")
+    equation_str = st.text_input("Ecuación", "sin(x)**2 - exp(-x**2) + 6*x**2 - 4")
     a = st.number_input("a", value=-10.0, step=0.1)
     b = st.number_input("b", value=10.0, step=0.1)
     tolerance = st.text_input("Tolerancia",value=0.0001)

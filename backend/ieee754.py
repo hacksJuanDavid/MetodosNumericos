@@ -41,6 +41,7 @@ def bin_to_decimal(bin_num, precision):
         decimal_mantissa = 1 + mantissa
         decimal_mantissa_str = str(decimal_mantissa)[2:18]
         decimal_equivalent = (-1)**sign * decimal_mantissa * 2**decimal_exponent
+        #print(sign, exponent, bin_num[1:], decimal_exponent, mantissa, decimal_mantissa_str, decimal_equivalent)
         return (sign, exponent, bin_num[1:], decimal_exponent, mantissa, decimal_mantissa_str, decimal_equivalent)
     elif precision == "doble":
         sign = int(bin_num[0])
@@ -50,6 +51,7 @@ def bin_to_decimal(bin_num, precision):
         decimal_mantissa = 1 + mantissa
         decimal_mantissa_str = str(decimal_mantissa)[2:18]
         decimal_equivalent = (-1)**sign * decimal_mantissa * 2**decimal_exponent
+        (sign, exponent, bin_num[1:], decimal_exponent, mantissa, decimal_mantissa_str, decimal_equivalent)
         return (sign, exponent, bin_num[1:], decimal_exponent, mantissa, decimal_mantissa_str, decimal_equivalent)
     else:     
         return "Error: precision no reconocida"

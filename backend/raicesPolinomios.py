@@ -27,8 +27,12 @@ def calcular_raices_polinomio(polinomio):
     # save the roots in a list 
     for i in roots:
         if i.imag == 0:
-            root_real.append(i.real)
+            #Replace string j by i
+            i = str(i).replace("j", "i")
+            root_real.append(i)
         else:
+            #Replace string j by i
+            i = str(i).replace("j", "i")
             root_complex.append(i)
 
     # Print the roots real
