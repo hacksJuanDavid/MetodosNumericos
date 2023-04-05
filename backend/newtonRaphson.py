@@ -76,7 +76,7 @@ def main():
     try:
         # Title
         st.title("Método de Newton-Raphson")
-        # Input equation
+        # Input equation // 588.6 * exp(-x/6) + 40 *x - 588.6 problema fisica
         equation_str = st.text_input("Ecuación", "(sin(x)/x) + cos(1+x**2) - 0.25")
 
         # Input initial values
@@ -120,7 +120,7 @@ def main():
         tabla_df = pd.DataFrame(datos, columns=columnas)
 
         # Plot function and root approximation
-        x = np.linspace(0, 3, 100)
+        x = np.linspace(-20, 20, 1000)
         y = f(x)
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=x, y=y, mode="lines", name="f(x)"))

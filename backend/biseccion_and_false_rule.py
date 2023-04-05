@@ -170,7 +170,8 @@ def main():
             ax.axvline(x=c, color='k')
             st.pyplot(fig)
             '''
-            # plotly plot
+            # plotly plot ESTA MALA LA GRAFICA DE ESTA FUNCION
+            x = np.linspace(-10, 10, 1000)
             fig = go.Figure()
             fig.add_trace(go.Scatter(x=x, y=y, name="Función"))
             fig.add_trace(go.Scatter(x=x_points, y=y_points, mode="markers", name="iteraciones"))

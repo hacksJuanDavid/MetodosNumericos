@@ -101,7 +101,7 @@ def main():
         tabla_df = pd.DataFrame(datos, columns=columnas)
 
         # Plot function and root approximation
-        x = np.linspace(0, 3, 100)
+        x = np.linspace(-20, 20, 1000)
         y = f(x)
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=x, y=y, mode="lines", name="f(x)"))

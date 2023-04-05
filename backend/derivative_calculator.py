@@ -33,6 +33,7 @@ def calcular_derivadas2(funcion, n=1, xO=2.5):
 
         # Return the results
         return resultados
+        
     except Exception as e:
         error_type = type(e).__name__
         error_msg = str(e)
@@ -76,17 +77,17 @@ def main():
                  str(resultados['x']) + r") = " + sp.latex(resultados['valor_derivada']))
 
         # Define los valores de x para graficar
-        x_vals = np.linspace(-10, 10, 200)
-
+        x = np.linspace(-10, 10, 1000)
+        
         # Evalúa la derivada en los valores de x
-        derivada_vals = [float(resultados['derivada'].subs(
-            resultados['x'], x_val)) for x_val in x_vals]
-
+        derivada_vals = [float(resultados['derivada0'].subs(
+            resultados['x'], x_val)) for x_val in x]
+        
         # Crea la figura
         fig = go.Figure()
 
         # Agrega la curva de la derivada a la figura
-        fig.add_trace(go.Scatter(x=x_vals, y=derivada_vals, mode='lines'))
+        fig.add_trace(go.Scatter(x=x, y=derivada_vals, mode='lines'))
 
         # Agrega un título y etiquetas para los ejes
         fig.update_layout(title="Gráfica de la derivada",
