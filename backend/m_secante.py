@@ -6,6 +6,8 @@ import pandas as pd
 from sympy import sympify, lambdify, symbols
 
 # Function to read the equation
+
+
 def read_equation(equation_str):
     """
     Parsea una cadena de texto con una ecuación y devuelve una función que la evalúa.
@@ -27,21 +29,24 @@ def read_equation(equation_str):
             }
             </style>
             """, unsafe_allow_html=True)
-        st.markdown(f'<h1 class="big-font">Error: La ecuación no es válida. {error_type}: {error_msg}</h1>', unsafe_allow_html=True)
+        st.markdown(
+            f'<h1 class="big-font">Error: La ecuación no es válida. {error_type}: {error_msg}</h1>', unsafe_allow_html=True)
         return None
 
 # Function to calculate the secant method
+
+
 def secant_method(f, x0, x1, tolerance=1e-6, max_iter=100):
     """
     Encuentra la raíz de la función f usando el método de la secante.
-    
+
     Args:
         f (function): Función a la que se le buscará su raíz.
         x0 (float): Valor inicial para la iteración.
         x1 (float): Otro valor inicial para la iteración.
         tol (float, optional): Tolerancia para la convergencia. Por defecto es 1e-6.
         max_iter (int, optional): Número máximo de iteraciones. Por defecto es 100.
-        
+
     Returns:
         float: Aproximación de la raíz de la función f.
     """
@@ -58,20 +63,49 @@ def secant_method(f, x0, x1, tolerance=1e-6, max_iter=100):
         i += 1
     raise ValueError("La función no converge.")
 
+
+# Function to plot the function
+def plot_function(f, a, b, x0, x1, raiz):
+    x = np.linspace(a, b, 1000)
+    y = f(x)
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=x, y=y, name="Función"))
+    fig.add_trace(go.Scatter(x=[x0], y=[f(x0)], mode="markers",
+                             name="x0", marker=dict(size=10)))
+    fig.add_trace(go.Scatter(x=[x1], y=[f(x1)], mode="markers",
+                             name="x1", marker=dict(size=10)))
+    fig.add_trace(go.Scatter(x=[raiz], y=[f(raiz)], mode="markers",
+                             name="Raíz", marker=dict(size=10)))
+    fig.update_layout(
+        title="Gráfica de la función",
+        xaxis_title="x",
+        yaxis_title="y",
+        font=dict(
+            family="Courier New, monospace",
+            size=18,
+            color="#7f7f7f"
+        )
+    )
+    st.plotly_chart(fig)
+
+
 def main():
     # Title
     st.title("Método de la Secante")
     # Input equation
     equation_str = st.text_input("Ecuación", "exp(-0.5*x) + 3.5*log(x) - 5.25")
+    # Input initial a and b
+    a = st.number_input("Valor inicial a", value=-10.0)
+    b = st.number_input("Valor inicial b", value=10.0)
     # Input initial values
     x0 = st.number_input("Valor inicial x0", value=1.0)
     # Input initial values
     x1 = st.number_input("Valor inicial x1", value=3.0)
     # Input tolerance
-    tolerance = st.text_input("Tolerancia",0.0001)
+    tolerance = st.text_input("Tolerancia", 0.0001)
     # Input max iterations
-    #max_iter = st.number_input("Número máximo de iteraciones", 100)
-    
+    # max_iter = st.number_input("Número máximo de iteraciones", 100)
+
     # Convert tolerance to float
     tolerance = float(tolerance)
 
@@ -84,10 +118,11 @@ def main():
         # Create try except to catch errors
         try:
             # Calculate root approximation
-            raiz,iteraciones= secant_method(f, x0, x1, tolerance)
+            raiz, iteraciones = secant_method(f, x0, x1, tolerance)
 
             # Print success message
-            st.success("La raíz es {} después {} iteraciones.".format(raiz, len(iteraciones)))
+            st.success("La raíz es {} después {} iteraciones.".format(
+                raiz, len(iteraciones)))
         except:
             # Print error message
             st.warning("Error: Defina correctamente los datos a evaluar.")
@@ -97,34 +132,20 @@ def main():
         columnas = ["Iteración", "x0", "x1", "raiz", "f(raiz)", "error"]
         datos = []
         for i, iteracion in enumerate(iteraciones):
-            datos.append([i+1, iteracion["x0"], iteracion["x1"], iteracion["raiz"], f(iteracion["raiz"]), abs(iteracion["error"])])
+            datos.append([i+1, iteracion["x0"], iteracion["x1"],
+                         iteracion["raiz"], f(iteracion["raiz"]), abs(iteracion["error"])])
         tabla_df = pd.DataFrame(datos, columns=columnas)
 
-        # Plot function and root approximation
-        x = np.linspace(-20, 20, 1000)
-        y = f(x)
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=x, y=y, mode="lines", name="f(x)"))
-        fig.add_shape(
-            type="line",
-            x0=0,
-            y0=0,
-            x1=3,
-            y1=0,
-            line=dict(color="gray", dash="dash"),
-        )
-        fig.add_trace(go.Scatter(x=[raiz], y=[f(raiz)], mode="markers", marker=dict(color="red"), name="Aproximación de la raíz"))
-        fig.update_layout(title="Gráfica de la función f(x) y su aproximación de la raíz", xaxis_title="x", yaxis_title="f(x)")
+        # Plot function
+        plot_function(f, a, b, x0, x1, raiz)
 
-        # Show plot
-        st.plotly_chart(fig)
-
-        #expander
+        # expander
         expander = st.expander("Tabla de iteraciones")
-            
+
         # Show table
         expander.table(tabla_df)
-    
+
+
 # Run main function
 if __name__ == "__main__":
-    main()   
+    main()

@@ -77,7 +77,7 @@ def calcular_error(f, a, b, n):
 
 def graficar(f, a, b, n):
     # Graficar la función y los rectángulos
-    x = np.linspace(-10, 10, 1000)
+    x = np.linspace(a, b, 1000)
     y = f(x)
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=x, y=y, name="Función"))
@@ -130,7 +130,7 @@ def graficar(f, a, b, n):
 
 def graficar2(f, a, b, n):
     # Crear el arreglo de puntos en el intervalo de integración
-    x = np.linspace(-10, 10, 1000)
+    x = np.linspace(a, b, 1000)
     y = f(x)
 
     # Crear el arreglo de puntos para los rectángulos

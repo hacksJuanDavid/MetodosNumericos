@@ -43,6 +43,32 @@ def newton_raphson(f, f_prime, x0, tol=1e-6, max_iter=100):
     raise ValueError(
         f"El método de Newton-Raphson no converge después de {max_iter} iteraciones")
 
+
+# Function graficar
+def graficar (f,a,b,x0, raiz):
+    x = np.linspace(a, b, 1000)
+    y = f(x)
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=x, y=y, name='f(x)'))
+    fig.add_trace(go.Scatter(x=[x0], y=[f(x0)], mode='markers', name='x0'))
+    fig.add_trace(go.Scatter(x=[raiz], y=[f(raiz)], mode='markers', name='raiz'))
+    fig.update_layout(title='Método de Newton-Raphson', xaxis_title='x', yaxis_title='f(x)')
+    
+    # Configurar el grid de fondo
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='white')
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='white')
+
+    # Configurar el layout de la figura
+    y_range = [np.min(y), np.max(y)]
+    fig.update_layout(
+        xaxis=dict(range=[-10, 10]),
+        yaxis=dict(range=y_range)
+    )
+    st.plotly_chart(fig)
+
+
+
+
 # Function to read the equation
 
 
@@ -78,6 +104,10 @@ def main():
         st.title("Método de Newton-Raphson")
         # Input equation // 588.6 * exp(-x/6) + 40 *x - 588.6 problema fisica
         equation_str = st.text_input("Ecuación", "(sin(x)/x) + cos(1+x**2) - 0.25")
+
+        # Input a and b
+        a = st.number_input("Valor inicial a", value=-10.0)
+        b = st.number_input("Valor inicial b", value=10.0)
 
         # Input initial values
         x0 = st.number_input("Valor inicial x0", value=1.0)
@@ -119,27 +149,8 @@ def main():
                          f(iteracion["raiz"]), abs(iteracion["error"])])
         tabla_df = pd.DataFrame(datos, columns=columnas)
 
-        # Plot function and root approximation
-        x = np.linspace(-20, 20, 1000)
-        y = f(x)
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=x, y=y, mode="lines", name="f(x)"))
-        fig.add_shape(
-            type="line",
-            x0=0,
-            y0=0,
-            x1=3,
-            y1=0,
-            line=dict(color="gray", dash="dash"),
-        )
-        fig.add_trace(go.Scatter(x=[raiz], y=[f(raiz)], mode="markers", marker=dict(
-            color="red"), name="Aproximación de la raíz"))
-        fig.update_layout(title="Gráfica de la función f(x) y su aproximación de la raíz",
-                          xaxis_title="x", yaxis_title="f(x)")
-
-        # Show plot
-        st.plotly_chart(fig)
-
+        # Graficar
+        graficar(f,a,b,x0, raiz)
         # expander
         expander = st.expander("Tabla de iteraciones")
 

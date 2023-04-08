@@ -70,7 +70,7 @@ def integrateInRectangle(f, a, b, n):
         )
 
     # Graficate the function and rectangles
-    x = np.linspace(-10, 10, 1000)
+    x = np.linspace(a, b, 1000)
     y = f(x)
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=x, y=y, name="f(x)"))
@@ -148,7 +148,7 @@ def integrateInTrapezoid(f, a, b, n):
         )
 
     # Graficate the function and trapezoids
-    x = np.linspace(-10, 10, 1000)
+    x = np.linspace(a, b, 1000)
     y = f(x)
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=x, y=y, name="f(x)"))

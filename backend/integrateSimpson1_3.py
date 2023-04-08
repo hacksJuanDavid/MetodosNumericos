@@ -50,7 +50,7 @@ def calcular_error(f, a, b, n):
 
 def graficar(f, a, b, n):
     # Graficar la función y los rectángulos
-    x = np.linspace(-10, 10, 1000)
+    x = np.linspace(a, b, 1000)
     y = f(x)
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=x, y=y, name="Función"))

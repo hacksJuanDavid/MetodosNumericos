@@ -20,10 +20,13 @@ def integrate_montecarlo(f, a, b, n):
 
 def plot(f, a, b, n):
     # Plot the function and the rectangles
-    x = np.linspace(-10, 10, 100)
+    x = np.linspace(a, b, 100)
     y = f(x)
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=x, y=y, name="Function"))
+
+    # Add title
+    fig.update_layout(title_text="Integración por el método de Montecarlo")
 
     # Generate points that are below the function
     x_points = []
