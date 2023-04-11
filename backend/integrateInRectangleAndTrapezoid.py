@@ -85,13 +85,15 @@ def integrateInRectangle(f, a, b, n):
     fig.update_layout(
         title="Gráfica de integracion rectangulo",
         xaxis_title="x",
-        yaxis_title="f(x)",
+        yaxis_title="y",
     )
 
     # Configurar el grid de fondo
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='white')
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='white')
 
+    # Configurar el tamaño del gráfico
+    fig.update_layout(width=800, height=600)
     # Configurar el layout de la figura
     y_range = [np.min(y), np.max(y)]
     fig.update_layout(
@@ -109,7 +111,7 @@ def integrateInRectangle(f, a, b, n):
     st.markdown("#### Midpoint rule : purple")
 
     # Show plot
-    st.plotly_chart(fig)
+    st.plotly_chart(fig,use_container_width=True)
 
     return h * left_sum, h * right_sum, h * midpoint_sum, h * default_sum
 
@@ -163,13 +165,14 @@ def integrateInTrapezoid(f, a, b, n):
     fig.update_layout(
         title="Gráfica de integracion trapecio",
         xaxis_title="x",
-        yaxis_title="f(x)",
+        yaxis_title="y",
     )
 
     # Configurar el grid de fondo
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='white')
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='white')
-
+    # Configurar el tamaño del gráfico
+    fig.update_layout(width=800, height=600)
     # Configurar el layout de la figura
     y_range = [np.min(y), np.max(y)]
     fig.update_layout(
@@ -178,7 +181,7 @@ def integrateInTrapezoid(f, a, b, n):
     )
 
     # Show plot
-    st.plotly_chart(fig)
+    st.plotly_chart(fig,use_container_width=True)
 
     return integral * h, error
 

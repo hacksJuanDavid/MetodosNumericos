@@ -119,7 +119,7 @@ def solve_equation(method, f, a, b, tolerance, max_iterations=100):
 
 
 # Function graficar
-def graficar(f, x_points, y_points, c , method):
+def graficar(f, x_points, y_points, c, method):
     # plotly plot
     x = np.linspace(-10, 10, 1000)
     y = f(x)
@@ -137,13 +137,16 @@ def graficar(f, x_points, y_points, c , method):
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='white')
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='white')
 
+    # Configurar el tamaño del gráfico
+    fig.update_layout(width=800, height=600)
+
     # Configurar el layout de la figura
     y_range = [np.min(y), np.max(y)]
     fig.update_layout(
         xaxis=dict(range=[-10, 10]),
         yaxis=dict(range=y_range)
     )
-    st.plotly_chart(fig)
+    st.plotly_chart(fig,use_container_width=True)
 
 # Function to display the app interface
 

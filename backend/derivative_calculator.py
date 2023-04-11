@@ -33,7 +33,7 @@ def calcular_derivadas2(funcion, n=1, xO=2.5):
 
         # Return the results
         return resultados
-        
+
     except Exception as e:
         error_type = type(e).__name__
         error_msg = str(e)
@@ -55,9 +55,12 @@ def main():
     st.title("Calculadora de Derivadas")
 
     # Ask the user for the function and the value of Xo
-    funcion = st.text_input("Introduce la función:", value="((sin(x)+pi)/(sin(x)-pi))-pi*sin(x)")
+    funcion = st.text_input("Introduce la función:",
+                            value="((sin(x)+pi)/(sin(x)-pi))-pi*sin(x)")
     xO = st.number_input("Introduce el valor de Xo:", value=0.0)
-
+    # Introduce el valor de a y b
+    a = st.number_input("Introduce el valor de a:", value=0.0)
+    b = st.number_input("Introduce el valor de b:", value=10.0)
     # Ask the user for the number of derivatives to calculate
     n = st.slider("Número de derivadas a calcular:",
                   min_value=1, max_value=10, value=1, step=1)
@@ -77,24 +80,24 @@ def main():
                  str(resultados['x']) + r") = " + sp.latex(resultados['valor_derivada']))
 
         # Define los valores de x para graficar
-        x = np.linspace(-10, 10, 1000)
-        
+        x = np.linspace(a, b, 1000)
+
         # Evalúa la derivada en los valores de x
         derivada_vals = [float(resultados['derivada0'].subs(
             resultados['x'], x_val)) for x_val in x]
-        
+
         # Crea la figura
         fig = go.Figure()
 
         # Agrega la curva de la derivada a la figura
         fig.add_trace(go.Scatter(x=x, y=derivada_vals, mode='lines'))
-
+        # Configurar el tamaño del gráfico
+        fig.update_layout(width=800, height=600)
         # Agrega un título y etiquetas para los ejes
         fig.update_layout(title="Gráfica de la derivada",
-                          xaxis_title="x", yaxis_title="f'(x)")
-
+                        xaxis_title="x", yaxis_title="y")
         # Muestra la figura
-        st.plotly_chart(fig)
+        st.plotly_chart(fig,use_container_width=True)
 
 
 # Run main function

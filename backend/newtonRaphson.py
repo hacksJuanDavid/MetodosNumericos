@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import streamlit as st
 import pandas as pd
-from sympy import sympify, lambdify, symbols,diff
+from sympy import sympify, lambdify, symbols, diff
 
 # Function to calculate the root using the Newton-Raphson method
 
@@ -45,28 +45,30 @@ def newton_raphson(f, f_prime, x0, tol=1e-6, max_iter=100):
 
 
 # Function graficar
-def graficar (f,a,b,x0, raiz):
+def graficar(f, a, b, x0, raiz):
     x = np.linspace(a, b, 1000)
     y = f(x)
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=x, y=y, name='f(x)'))
     fig.add_trace(go.Scatter(x=[x0], y=[f(x0)], mode='markers', name='x0'))
-    fig.add_trace(go.Scatter(x=[raiz], y=[f(raiz)], mode='markers', name='raiz'))
-    fig.update_layout(title='Método de Newton-Raphson', xaxis_title='x', yaxis_title='f(x)')
-    
+    fig.add_trace(go.Scatter(x=[raiz], y=[f(raiz)],
+                  mode='markers', name='raiz'))
+    fig.update_layout(title='Método de Newton-Raphson',
+                      xaxis_title='x', yaxis_title='y')
+
     # Configurar el grid de fondo
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='white')
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='white')
 
+    # Configurar el tamaño del gráfico
+    fig.update_layout(width=800, height=600)
     # Configurar el layout de la figura
     y_range = [np.min(y), np.max(y)]
     fig.update_layout(
         xaxis=dict(range=[-10, 10]),
         yaxis=dict(range=y_range)
     )
-    st.plotly_chart(fig)
-
-
+    st.plotly_chart(fig,use_container_width=True)
 
 
 # Function to read the equation
@@ -103,7 +105,8 @@ def main():
         # Title
         st.title("Método de Newton-Raphson")
         # Input equation // 588.6 * exp(-x/6) + 40 *x - 588.6 problema fisica
-        equation_str = st.text_input("Ecuación", "(sin(x)/x) + cos(1+x**2) - 0.25")
+        equation_str = st.text_input(
+            "Ecuación", "(sin(x)/x) + cos(1+x**2) - 0.25")
 
         # Input a and b
         a = st.number_input("Valor inicial a", value=-10.0)
@@ -150,7 +153,7 @@ def main():
         tabla_df = pd.DataFrame(datos, columns=columnas)
 
         # Graficar
-        graficar(f,a,b,x0, raiz)
+        graficar(f, a, b, x0, raiz)
         # expander
         expander = st.expander("Tabla de iteraciones")
 

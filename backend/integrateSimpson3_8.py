@@ -67,7 +67,7 @@ def calcular_error(f, a, b, n):
     cuarta_derivada = np.max(np.abs(np.gradient(np.gradient(
         np.gradient(np.gradient(f(np.linspace(a, b, 1000))))))))
     # Cálculo del error
-    #error = (-3/80) * (h**5) * cuarta_derivada * a + (b - a) * np.random.rand()
+    # error = (-3/80) * (h**5) * cuarta_derivada * a + (b - a) * np.random.rand()
     error = (-3/80) * (h**5) * cuarta_derivada * (b - a)
     return error
 
@@ -115,7 +115,8 @@ def graficar(f, a, b, n):
             gridcolor='white',
         )
     )
-
+    # Configurar el tamaño del gráfico
+    fig.update_layout(width=800, height=600)
     # Configurar el layout de la figura
     y_range = [np.min(y), np.max(y)]
     fig.update_layout(
@@ -182,7 +183,8 @@ def main():
         # Title
         st.title("Método de Simpson 3/8")
         # Equation
-        equation_str = st.text_input("Ecuación", "pi*((exp(x) - pi ) / (exp(x)) + pi * cos(x/2))**2")
+        equation_str = st.text_input(
+            "Ecuación", "pi*((exp(x) - pi ) / (exp(x)) + pi * cos(x/2))**2")
         # Limits
         a = st.number_input("Extremo izquierdo", value=0.0)
         b = st.number_input("Extremo derecho", value=1.0)

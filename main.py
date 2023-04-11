@@ -27,6 +27,10 @@ from fronend.df_display_app_interface_integrateSimpson1_3 import display_integra
 from fronend.df_display_app_interface_integrateSimpson3_8 import display_integrateSimpson3_8
 # Import the display_integrateMontecarlo function from the df_display_app_interface_integrateMontecarlo.py file
 from fronend.df_display_app_interface_integrateMontecarlo import display_integrateMontecarlo
+# Import the display_m_graficator funtion from the fd_display_app_interface_multipleGraficator.py file
+from fronend.fd_display_app_interface_multipleGraficator import display_m_graficator
+
+
 
 # Create a function to display the app interface sidebar menu
 
@@ -45,11 +49,13 @@ def display_app_inteface_sidebar_menu():
 
     # Create menu items
     menu_items = ["Home", "🗡️Conversor Bases", "⚔️Conversor Bases IEEE754", "🛡️Biseccion y regla falsa", "🪛Método de la secante", "🔧 Derivadas", "🛠️Raices de polinomios",
-                  "🔦Newton Raphson", "⛏️Integración por trapecio y rectángulo", "🔨Integración por Simpson 1/3", "🔧Integración por Simpson 3/8", "🔩Integración por Montecarlo"]
+                  "🔦Newton Raphson", "⛏️Integración por trapecio y rectángulo", "🔨Integración por Simpson 1/3", "🔧Integración por Simpson 3/8", "🔩Integración por Montecarlo",
+                  "📈Multiple Graficador"
+                  ]
 
     # Create menu icons
     menu_icons = ["house", "calculator", "calculator", "calculator", "calculator", "calculator",
-                  "calculator", "calculator", "calculator", "calculator", "calculator", "calculator"]
+                  "calculator", "calculator", "calculator", "calculator", "calculator", "calculator","graficador"]
 
     # Create a sidebar menu
     selected = st.sidebar.selectbox(
@@ -84,6 +90,8 @@ def display_app_inteface_sidebar_menu():
         display_integrateSimpson3_8()
     elif selected == "🔩Integración por Montecarlo":
         display_integrateMontecarlo()
+    elif selected == "📈Multiple Graficador":
+        display_m_graficator()    
 
 # Create a controller displays interface of the app
 def display_app_interface():

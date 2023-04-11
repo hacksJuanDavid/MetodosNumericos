@@ -15,7 +15,7 @@ def simpson13(f, a, b, n):
         else:
             s += 4 * f(a + i * h)
 
-    return (h / 3) * s 
+    return (h / 3) * s
 
 # Function to calculate the integral
 
@@ -40,9 +40,9 @@ def calcular_error(f, a, b, n):
     cuarta_derivada = np.max(np.abs(np.gradient(np.gradient(
         np.gradient(np.gradient(f(np.linspace(a, b, 1000))))))))
     # Cálculo del error
-    #error = (-h**5 / 90) * cuarta_derivada * a + (b - a) * np.random.rand()
+    # error = (-h**5 / 90) * cuarta_derivada * a + (b - a) * np.random.rand()
     error = (-h**5 / 90) * cuarta_derivada * (b - a)
-    
+
     return error
 
 # Function to plot the function
@@ -78,7 +78,8 @@ def graficar(f, a, b, n):
     # Configurar el grid de fondo
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='white')
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='white')
-
+    # Configurar el tamaño del gráfico
+    fig.update_layout(width=800, height=600)
     # Configurar el layout de la figura
     y_range = [np.min(y), np.max(y)]
     fig.update_layout(
@@ -221,7 +222,7 @@ def main():
 
             # Plot the function
             fig = graficar(f, a, b, n)
-            st.plotly_chart(fig)
+            st.plotly_chart(fig,use_container_width=True)
 
             # fig2 = graficar2(f, a, b, n)
             # st.plotly_chart(fig2)

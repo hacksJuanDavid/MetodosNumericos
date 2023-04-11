@@ -76,6 +76,9 @@ def plot_function(f, a, b, x0, x1, raiz):
                              name="x1", marker=dict(size=10)))
     fig.add_trace(go.Scatter(x=[raiz], y=[f(raiz)], mode="markers",
                              name="Raíz", marker=dict(size=10)))
+    # Configurar el tamaño del gráfico
+    fig.update_layout(width=800, height=600)
+
     fig.update_layout(
         title="Gráfica de la función",
         xaxis_title="x",
@@ -86,7 +89,7 @@ def plot_function(f, a, b, x0, x1, raiz):
             color="#7f7f7f"
         )
     )
-    st.plotly_chart(fig)
+    st.plotly_chart(fig,use_container_width=True)
 
 
 def main():

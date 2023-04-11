@@ -50,6 +50,8 @@ def plot(f, a, b, n):
     y_rect = [0, f(a), f(b), 0]
     fig.add_trace(go.Scatter(x=x_rect, y=y_rect, name="Rectangles",
                   fill="toself", fillcolor="rgba(0, 0, 255, 0.2)"))
+    # Configurar el tamaño del gráfico
+    fig.update_layout(width=800, height=600)
 
     # Configure the background grid
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='white')
@@ -139,7 +141,7 @@ def main():
 
             # Plot the function
             fig = plot(f, a, b, n)
-            st.plotly_chart(fig)
+            st.plotly_chart(fig,use_container_width=True)
 
             # Print the result in LaTeX format
             st.markdown("## Resultado")
