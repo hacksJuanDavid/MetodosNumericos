@@ -251,16 +251,74 @@ def luMatrix(a):
 
 
 # Funcion para calcular la eliminacion Gauss-Jordan
-def gaussJordanEliminationMatrix(a):
-    # Parsear la matriz a una matriz de SymPy
-    a = sp.Matrix(a)
+def gaussJordanEliminationMatrix():
+    # Creamos 3 columnas para filas, columnas y términos independientes
+    col1, col2 = st.columns(2)
 
-    try:
-        # Calcular la eliminacion Gauss-Jordan de la matriz
-        return a.rref()
-    except:
-        st.warning('Hubo un error al calcular la eliminacion Gauss-Jordan')
-        st.write("\n")
+    # Creamos input para filas
+    rows = col1.number_input(
+        'Ingrese el numero de filas de la matriz', min_value=1, max_value=10, value=1)
+
+    # Creamos input para columnas
+    cols = col2.number_input(
+        'Ingrese el numero de columnas de la matriz', min_value=1, max_value=10, value=1)
+
+    # Creamos una matriz de ceros y una lista de términos independientes
+    matrix = np.zeros((rows, cols))
+    terminos_independientes = [0] * rows
+
+    # Obtener los valores de la matriz del usuario
+    st.write('Ingrese los valores para la matriz y los términos independientes:')
+    for i in range(rows):
+        # Agregar una columna para términos independientes
+        cols_input = st.columns(cols + 1)
+        for j in range(cols):
+            # Leer la entrada del usuario como una cadena y convertirla a un número
+            value_str = cols_input[j].text_input('Ingrese un valor para la celda ['+str(
+                i)+']['+str(j)+']', key='matrix_'+'_'+str(i)+'_'+str(j))
+            try:
+                value = float(value_str)
+                matrix[i][j] = value
+            except:
+                st.warning('Ingrese un numero valido')
+                st.write("\n")
+        # Leer el valor del término independiente para esta fila
+        termino_str = cols_input[cols].text_input(
+            'Ingrese un valor para el termino independiente ['+str(i)+']', key='terminos_'+'_'+str(i))
+        try:
+            termino = float(termino_str)
+            terminos_independientes[i] = termino
+        except:
+            st.warning('Ingrese un numero valido para el termino independiente')
+            st.write("\n")
+
+    # Crear un boton para calcular gauss jordan
+    if st.button('Calcular Gauss-Jordan'):
+        # Concatenar la matriz y los términos independientes en una matriz aumentada
+        Ab = np.concatenate(
+            (matrix, np.array(terminos_independientes).reshape(-1, 1)), axis=1)
+
+        # Iterar sobre las filas de la matriz aumentada
+        n = len(Ab)
+        for i in range(n):
+            # Dividir la fila i por Ab[i,i]
+            Ab[i, :] = Ab[i, :] / Ab[i, i]
+
+            # Hacer 0s debajo del pivote en la columna i
+            for j in range(i+1, n):
+                Ab[j, :] = Ab[j, :] - Ab[i, :] * Ab[j, i]
+
+            # Hacer 0s arriba del pivote en la columna i
+            for j in range(i):
+                Ab[j, :] = Ab[j, :] - Ab[i, :] * Ab[j, i]
+
+        # La matriz Ab está ahora en forma escalonada reducida, extraer la última columna como solución
+        x = Ab[:, -1]
+
+        st.subheader('La solución del sistema de ecuaciones es:')
+        # Print the solution latex
+        st.latex('x = ' + sp.latex(sp.Matrix(x)))
+
 
 # ////////////////////////////////////////////////////////////////////////////////////////
 # Funcion comprobar si es cuadrada la matriz
@@ -395,11 +453,14 @@ def createMatrices():
         if not name:
             break
 
-        # Obtener dimensiones de la matriz
-        rows = st.number_input('Ingrese el número de filas para la matriz ' + name,
-                               min_value=1, value=1, step=1, key='matrix_rows_'+str(matrix_count))
-        cols = st.number_input('Ingrese el número de columnas para la matriz ' +
-                               name, min_value=1, value=1, step=1, key='matrix_cols_'+str(matrix_count))
+        # Crear 2 columnas para las dimensiones de la matriz
+        cols = st.columns(2)
+
+        # Obtener las dimensiones de la matriz del usuario
+        rows = cols[0].number_input(
+            'Ingrese el numero de filas', min_value=1, key='matrix_'+str(matrix_count)+'_rows')
+        cols = cols[1].number_input(
+            'Ingrese el numero de columnas', min_value=1, key='matrix_'+str(matrix_count)+'_cols')
 
         # Crear la matriz y guardarla en el diccionario
         matrices[name] = np.zeros((rows, cols), dtype=object)
@@ -447,6 +508,8 @@ def calcular_operacion(operacion, matrices):
     if "det(" in operacion:
         # Extraer el nombre de la matriz
         nombre_matriz = operacion[operacion.find("(")+1:operacion.find(")")]
+
+        print("Nombre de la matriz det:", nombre_matriz)
         # Buscar la matriz correspondiente
         matriz = matrices.get(nombre_matriz)
         if matriz is None:
@@ -457,7 +520,6 @@ def calcular_operacion(operacion, matrices):
                 st.stop()
         # Calcular el determinante
         resultado_det = detMatrix(matriz)
-        # Agregar el resultado a la lista de matrices
 
         # Imprimir el resultado del determinante en formato LaTeX
         printMatricesSymPy(matrices, nombre_matriz, resultado_det, "det")
@@ -470,6 +532,8 @@ def calcular_operacion(operacion, matrices):
     elif "inv(" in operacion:
         # Extraer el nombre de la matriz
         nombre_matriz = operacion[operacion.find("(")+1:operacion.find(")")]
+
+        print("Nombre de la matriz inv:", nombre_matriz)
         # Buscar la matriz correspondiente
         matriz = matrices.get(nombre_matriz)
         if matriz is None:
@@ -598,28 +662,6 @@ def calcular_operacion(operacion, matrices):
         # Reemplazar la operación de la LU en la expresión original con su resultado
         operacion = operacion.replace(
             f"LU({nombre_matriz})", str(resultado_LU))
-
-    # Buscar si la operación contiene la Gauss Jordan Elimination
-    elif "gje(" in operacion:
-        # Extraer el nombre de la matriz
-        nombre_matriz = operacion[operacion.find("(")+1:operacion.find(")")]
-        # Buscar la matriz correspondiente
-        matriz = matrices.get(nombre_matriz)
-        if matriz is None:
-            try:
-                raise ValueError(f"La matriz {nombre_matriz} no está definida")
-            except ValueError as e:
-                st.error(e)
-                st.stop()
-        # Calcular la Gauss Jordan Elimination
-        resultado_GJE = gaussJordanEliminationMatrix(matriz)[0]
-
-        # Imprimir el resultado de la Gauss Jordan Elimination en formato LaTeX
-        printMatricesSymPy(matrices, nombre_matriz, resultado_GJE, "gje")
-
-        # Reemplazar la operación de la Gauss Jordan Elimination en la expresión original con su resultado
-        operacion = operacion.replace(
-            f"GJE({nombre_matriz})", str(resultado_GJE))
 
     try:
         # Evaluar la expresión actualizada
@@ -786,8 +828,8 @@ def main():
 
     # Tabs
 
-    tab1, tab2, tab3, tab4 = st.tabs(
-        ["Crear matrices", "Calcular matrices", "Operacion entre matrices ", "Calcular Matrices por un escalar"])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(
+        ["Crear matrices", "Calcular matrices", "Operacion entre matrices ", "Calcular Matrices por un escalar", "Calculadora de matrices por Gauss-Jordan"])
 
     with tab1:
         # Creamos las matrices
@@ -812,7 +854,7 @@ def main():
         options = st.selectbox(
             'Seleccione una opcion',
             ('Suma de matrices', 'Resta de matrices', 'Multiplicacion de matrices', 'Inversa de una matriz', 'Transpuesta de una matriz', 'Determinante de una matriz', 'Traza de una matriz',
-             'Resolver un sistema de ecuaciones lineales mediante matrices', 'Matriz triangular', 'Matriz triangular superior', 'Matriz triangular inferior', 'Matriz diagonal', 'Factorizacion LU', 'Eliminacion Gauss-Jordan')
+             'Resolver un sistema de ecuaciones lineales mediante matrices', 'Matriz triangular', 'Matriz triangular superior', 'Matriz triangular inferior', 'Matriz diagonal', 'Factorizacion LU')
         )
 
         # Cramos un boton para calcular
@@ -1014,23 +1056,13 @@ def main():
                     printMatricesX1Numpy(matrices, matrix1, result1, "LU")
                     printMatricesX1Numpy(matrices, matrix2, result2, "LU")
 
-            elif options == 'Eliminacion Gauss-Jordan':
-                if matrix1 is None or matrix2 is None:
-                    st.error(
-                        "Por favor, seleccione una matriz para calcular su traza.")
-                else:
-                    result1 = gaussJordanEliminationMatrix(matrices[matrix1])
-                    result2 = gaussJordanEliminationMatrix(matrices[matrix2])
-
-                    # Print matrices
-                    printMatricesX1Numpy(matrices, matrix1, result1, "GJ")
-                    printMatricesX1Numpy(matrices, matrix2, result2, "GJ")
     with tab3:
         # Crear un input para la operación
         st.title('Operacion entre matrices')
-        st.write('Las funciones disponibles son: +, -, *, /, ^')
         st.write(
-            'Las funciones especiales son: det(), inv(),t(), tr(), triu(), diag(), lu(), gje()')
+            'Las funciones disponibles son: +, -, *, /, ^, **,sin(x),cos(x),tan(x),sqrt(x),exp(x),log(x)')
+        st.write(
+            'Las funciones especiales son: det(), inv(),t(), tr(), triu(), diag(), lu()')
 
         operacion = st.text_input(
             'Ingrese la operación que desea realizar', value='A+B')
@@ -1053,6 +1085,12 @@ def main():
 
         # Print matrices
         printMatricesX1Numpy(matrices, matrix1, result, "k")
+
+    with tab5:
+        # Calcular la Eliminacion Gauss-Jordann de una matriz
+        st.title('Calcular Eliminacion Gauss-Jordan')
+        # Calcular Eliminacion Gauss-Jordan
+        result = gaussJordanEliminationMatrix()
 
 
 # Ejecutar funcion main
