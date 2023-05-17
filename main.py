@@ -31,6 +31,8 @@ from fronend.df_display_app_interface_integrateMontecarlo import display_integra
 from fronend.fd_display_app_interface_multipleGraficator import display_m_graficator
 # Import the display_matrices function from the df_display_app_interface_matrices.py file
 from fronend.df_display_app_interface_matrices import display_matrices
+# Import the display_ajusteDeCurvasPorMinimosCuadrados function from the fd_display_app_interface_ajusteDeCurvasPorMinimosCuadrados.py file
+from fronend.fd_display_app_interface_ajusteDecurvasPorMinimosCuadrados import display_ajusteDeCurvasPorMinimosCuadrados
 
 
 
@@ -52,12 +54,12 @@ def display_app_inteface_sidebar_menu():
     # Create menu items
     menu_items = ["Home", "🗡️Conversor Bases", "⚔️Conversor Bases IEEE754", "🛡️Biseccion y regla falsa", "🪛Método de la secante", "🔧 Derivadas", "🛠️Raices de polinomios",
                   "🔦Newton Raphson", "⛏️Integración por trapecio y rectángulo", "🔨Integración por Simpson 1/3", "🔧Integración por Simpson 3/8", "🔩Integración por Montecarlo",
-                  "📈Multiple Graficador","Matrices"
+                  "📈Multiple Graficador","Matrices","Minimos Cuadrados"
                   ]
 
     # Create menu icons
     menu_icons = ["house", "calculator", "calculator", "calculator", "calculator", "calculator",
-                  "calculator", "calculator", "calculator", "calculator", "calculator", "calculator","graficador","calculator"]
+                  "calculator", "calculator", "calculator", "calculator", "calculator", "calculator","graficador","calculator","calculator"]
 
     # Create a sidebar menu
     selected = st.sidebar.selectbox(
@@ -96,6 +98,8 @@ def display_app_inteface_sidebar_menu():
         display_m_graficator()
     elif selected == "Matrices":
         display_matrices()
+    elif selected == "Minimos Cuadrados":
+        display_ajusteDeCurvasPorMinimosCuadrados()
 
 # Create a controller displays interface of the app
 def display_app_interface():
