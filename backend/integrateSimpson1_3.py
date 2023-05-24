@@ -195,7 +195,7 @@ def main():
         # Title
         st.title("Método de Simpson 1/3")
         # Equation
-        equation_str = st.text_input("Ecuación", "x**2")
+        equation_str = st.text_input("Ecuación", "exp(x^2) + 23 - cos(x)")
         # Limits
         a = st.number_input("Extremo izquierdo", value=0.0)
         b = st.number_input("Extremo derecho", value=1.0)

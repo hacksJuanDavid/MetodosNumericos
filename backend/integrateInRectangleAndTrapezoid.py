@@ -242,9 +242,6 @@ def main():
         st.sidebar.markdown(instrucciones_rectangulo_trapecio, unsafe_allow_html=True)
 
 
-
-
-
         # Title
         st.title("Integracion en rectangulo y trapecio")
         st.markdown(
@@ -252,7 +249,7 @@ def main():
         st.markdown("")
 
         # Equation
-        equation_str = st.text_input("Ecuación", "x**2")
+        equation_str = st.text_input("Ecuación", "exp(x^2)")
 
         # Read the equation
         f = read_equation(equation_str)
