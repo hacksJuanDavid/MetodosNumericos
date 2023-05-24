@@ -180,6 +180,28 @@ def graficar2(f, a, b, n):
 def main():
     # try and except
     try:
+        # Instrucciones de uso
+        instrucciones_simpson38 = """
+            <h1>Instrucciones de uso: Integración Simpson 3/8</h1>
+
+            <h2>Descripción</h2>
+            <p>La integración es un concepto fundamental en el cálculo y se utiliza para calcular el área bajo una curva o la acumulación de una cantidad a lo largo de un intervalo. La integración permite encontrar el valor exacto o una aproximación de la integral de una función.</p>
+
+            <h2>Procedimiento</h2>
+            <p>A continuación se detalla el procedimiento general para realizar la integración:</p>
+            <ol>
+                <li>Las funciones disponibles son: +, -, *, /, ^, **,sin(x),cos(x),tan(x),sqrt(x),exp(x),log(x)</li>
+                <li>Identifica la función para la cual deseas calcular la integral ingresala en el input correspodiente.</li>
+                <li>Define los limites de integracion inferio y superio.</li>
+                <li>Define el numero de particiones.</li>
+                <li>Presiona el boton "Calcular" y te arrojara los resultados.</li>
+            </ol>
+
+            <h2>Consideraciones adicionales</h2>
+            <p>El cálculo de integrales puede variar en complejidad dependiendo de la función y el método utilizado. Algunas funciones pueden requerir técnicas avanzadas, como la integración numérica o el uso de software especializado. Además, ten en cuenta las propiedades de las integrales, como la linealidad y la regla del valor medio del cálculo integral.</p>
+        """
+        st.sidebar.markdown(instrucciones_simpson38, unsafe_allow_html=True)
+
         # Title
         st.title("Método de Simpson 3/8")
         # Equation

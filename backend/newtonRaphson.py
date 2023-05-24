@@ -68,7 +68,7 @@ def graficar(f, a, b, x0, raiz):
         xaxis=dict(range=[-10, 10]),
         yaxis=dict(range=y_range)
     )
-    st.plotly_chart(fig,use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True)
 
 
 # Function to read the equation
@@ -102,6 +102,37 @@ def read_equation(equation_str):
 
 def main():
     try:
+
+        # Instrucciones de uso
+        instucciones_newton_raphson = """
+            <h1>Instrucciones de uso: Método de Newton-Raphson</h1>
+
+            <h2>Descripción</h2>
+            <p>El método de Newton-Raphson es un algoritmo numérico utilizado para encontrar las raíces de una función. Este método utiliza una aproximación inicial y se basa en la idea de utilizar la pendiente de la función en ese punto para iterativamente encontrar una mejor aproximación de la raíz.</p>
+
+            <h2>Procedimiento</h2>
+            <p>A continuación se detalla el procedimiento para aplicar el método de Newton-Raphson:</p>
+            <ol>
+                <li>Las funciones disponibles son: +, -, *, /, ^, **,sin(x),cos(x),tan(x),sqrt(x),exp(x),log(x)</li>
+                <li>Ingresa la funcion que desea encontrar la raiz en su input correspondiente.</li>
+                <li>Elige una aproximación inicial cercana a la raíz deseada x0.</li>
+                <li>El intervalo [a, b] son valores de ajuste para la grafica</li>
+                <li>Presiona el botón "Calcular" y te arrojara los resultados.</li>
+            </ol>
+
+            <h2>Criterios de Convergencia</h2>
+            <p>El método de Newton-Raphson puede utilizar diferentes criterios de convergencia para determinar cuándo se ha alcanzado una solución satisfactoria. Algunos de los criterios comunes incluyen:</p>
+            <ul>
+                <li>Alcanzar una tolerancia o diferencia mínima entre dos aproximaciones sucesivas.</li>
+                <li>Alcanzar un número máximo de iteraciones predefinidas.</li>
+                <li>Comprobar si la función evaluada en la aproximación actual es suficientemente cercana a cero.</li>
+            </ul>
+
+            <h2>Consideraciones adicionales</h2>
+            <p>El método de Newton-Raphson puede requerir un número variable de iteraciones para converger a una solución, dependiendo de la función y la aproximación inicial seleccionada. Además, ten en cuenta que el método puede no converger si la función tiene múltiples raíces cercanas o si se encuentra una singularidad.</p>
+        """
+        st.sidebar.markdown(instucciones_newton_raphson, unsafe_allow_html=True)
+
         # Title
         st.title("Método de Newton-Raphson")
         # Input equation // 588.6 * exp(-x/6) + 40 *x - 588.6 problema fisica

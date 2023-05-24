@@ -68,10 +68,32 @@ def calcular_raices_polinomio(polinomio):
 
 
 def main():
+
+    # Instruciones de uso
+    instrucciones_raices_polinomios = """
+        <h1>Instrucciones de uso: Raíces de Polinomios</h1>
+
+        <h2>Descripción</h2>
+        <p>En matemáticas, las raíces de un polinomio son los valores para los cuales el polinomio se anula. Encontrar las raíces de un polinomio es un problema fundamental y puede proporcionar información valiosa sobre las propiedades y el comportamiento del polinomio.</p>
+
+        <h2>Procedimiento</h2>
+        <p>A continuación se detalla el procedimiento general para encontrar las raíces de un polinomio:</p>
+        <ol>
+            <li>Las funciones disponibles son: +, -, *, /, ^, **,sin(x),cos(x),tan(x),sqrt(x),exp(x),log(x)</li>
+            <li>Ingresa en el input correspondiente los coeficientes en su forma estándar sin constantes, ordenando los términos de el orden que esta en su ecuacion.</li>
+            <li>"Los coeficientes del polinomio separados por coma (ejemplo: 1,2,3) o (ejemplo: 5.25, -17.4, 0, -10.83, 25.86, -13.25)."</li>
+            <li>Presiona el botón "Calcular".</li>
+            <li>El programa mostrará las raíces del polinomio reales y complejas.</li>
+        </ol>
+
+        <h2>Consideraciones adicionales</h2>
+        <p>El cálculo de las raíces de un polinomio puede variar en complejidad dependiendo del grado del polinomio y los métodos utilizados. Algunos polinomios pueden tener raíces reales o complejas, múltiples raíces o raíces irracionales. Además, ten en cuenta que existen software y herramientas en línea que pueden ayudarte en el cálculo de las raíces de polinomios más complejos.</p>
+    """
+    st.sidebar.markdown(instrucciones_raices_polinomios, unsafe_allow_html=True)
+
     # Print the title of the program
     st.title("Raíces de un polinomio")
     st.write("Este programa calcula las raíces de un polinomio")
-    st.write("Los coeficientes del polinomio separados por coma (ejemplo: 1,2,3) o (ejemplo: 5.25, -17.4, 0, -10.83, 25.86, -13.25)")
 
     # Prompt the user to enter the equation in coefficient format
     polinomio = st.text_input(

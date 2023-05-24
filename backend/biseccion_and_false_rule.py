@@ -146,7 +146,7 @@ def graficar(f, x_points, y_points, c, method):
         xaxis=dict(range=[-10, 10]),
         yaxis=dict(range=y_range)
     )
-    st.plotly_chart(fig,use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True)
 
 # Function to display the app interface
 
@@ -159,8 +159,8 @@ def main():
     st.header("Métodos de bisección y falsa posición")
 
     # subheader
-    st.subheader(
-        "Para tener en cuenta antes de usar la aplicación: \n 1. La ecuación debe ser una función de una variable. \n 2. El intervalo [a, b] debe contener una raíz. \n 3. La tolerancia debe ser un número positivo. \n 4. El número máximo de iteraciones debe ser un número entero positivo. \n 5. El método de bisección solo funciona para funciones continuas. \n 6. El método de falsa posición funciona para funciones continuas y discontinuas. \n 7. El método de falsa posición funciona mejor para funciones con raíces múltiples.")
+    st.sidebar.subheader(
+        "Para tener en cuenta antes de usar la aplicación: \n Las funciones disponibles son: +, -, *, /, ^, **,sin(x),cos(x),tan(x),sqrt(x),exp(x),log(x) \n 1. La ecuación debe ser una función de una variable. \n 2. El intervalo [a, b] debe contener una raíz. \n 3. La tolerancia debe ser un número positivo. \n 4. El número máximo de iteraciones debe ser un número entero positivo. \n 5. El método de bisección solo funciona para funciones continuas. \n 6. El método de falsa posición funciona para funciones continuas y discontinuas. \n 7. El método de falsa posición funciona mejor para funciones con raíces múltiples. \n 8. Presione el botón 'Calcular' para obtener los resultados.")
 
     # Inputs
     method = st.selectbox("Método", ["Bisection", "Regula Falsi"])

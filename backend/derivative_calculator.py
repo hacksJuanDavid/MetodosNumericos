@@ -52,6 +52,32 @@ def calcular_derivadas2(funcion, n=1, xO=2.5):
 
 
 def main():
+
+    # Instrucciones de uso
+    instrucciones_derivadas = """
+        <h1>Instrucciones de uso: Cálculo de Derivadas</h1>
+
+        <h2>Descripción</h2>
+        <p>El cálculo de derivadas es una técnica fundamental en el análisis matemático que permite determinar la tasa de cambio instantánea de una función en un punto dado. La derivada de una función representa su pendiente en cada punto y puede proporcionar información sobre su crecimiento, mínimos y máximos, y concavidad.</p>
+
+        <h2>Procedimiento</h2>
+        <p>A continuación se detalla el procedimiento para calcular la derivada de una función:</p>
+        <ol>
+            <li>Las funciones disponibles son: +, -, *, /, ^, **,sin(x),cos(x),tan(x),sqrt(x),exp(x),log(x)</li>
+            <li>Identifica la función para la cual deseas calcular la derivada.</li>
+            <li>Determina el tipo de derivada que deseas calcular: derivada de primer orden (primera derivada) o derivada de orden superior (derivadas sucesivas).</li>
+            <li>Inserta la funcion de la que deseas derivar en el input correspondiente.</li>
+            <li>Inserta el valor de x en el que deseas evaluar la derivada.</li>
+            <li>El intervalo [a, b] son valores de ajuste para la grafica</li>
+            <li>Selecciona el número de derivadas que deseas calcular.</li>
+            <li>Presiona el botón "Calcular" y obtenedras los resultados.</li>
+        </ol>
+
+        <h2>Consideraciones adicionales</h2>
+        <p>Es importante tener en cuenta que el cálculo de derivadas puede variar dependiendo del tipo de función y la técnica utilizada. Algunas funciones pueden requerir métodos más avanzados, como la derivación numérica o el uso de software especializado. Además, ten en cuenta las reglas y propiedades de las derivadas, como la regla de la cadena y la derivada de una constante.</p>
+    """
+    st.sidebar.markdown(instrucciones_derivadas, unsafe_allow_html=True)
+
     st.title("Calculadora de Derivadas")
 
     # Ask the user for the function and the value of Xo
@@ -95,9 +121,9 @@ def main():
         fig.update_layout(width=800, height=600)
         # Agrega un título y etiquetas para los ejes
         fig.update_layout(title="Gráfica de la derivada",
-                        xaxis_title="x", yaxis_title="y")
+                          xaxis_title="x", yaxis_title="y")
         # Muestra la figura
-        st.plotly_chart(fig,use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
 
 
 # Run main function

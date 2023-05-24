@@ -24,16 +24,18 @@ def display_app_inteface_conversor_bases_ieee754():
         """, unsafe_allow_html=True)
         st.markdown('<h1 class="big-font">Conversion Simple Precisión 32bits</h1>', unsafe_allow_html=True)
 
-        # Add a text input
-        st.markdown("""
-        <style>
-        div[class*="stNumberInput"] label {
-            font-size: 26px;
-            color: #000000;
-            }
-        }
-        </style>
-        """, unsafe_allow_html=True)
+        # Instrucciones de uso
+        instruciones_simple_precision = f'''
+            <h3>Para convertir un número a (simple presición), sigue estos pasos:</h3>
+            <ol>
+                <li>Escribe el número que deseas convertir en el input.</li>
+                <li>Despues oprime el boton calcular.</li>
+                <li>Y te retornara los resultados obtenidos de la conversion IEEE754 simple.</li>
+            </ol>
+        '''
+        st.sidebar.markdown(instruciones_simple_precision, unsafe_allow_html=True)
+
+
 
         # Add a text input for decimal
         decimal_input = st.text_input("Ingresar Numero:",value=0, key=4)
@@ -93,16 +95,16 @@ def display_app_inteface_conversor_bases_ieee754():
         """, unsafe_allow_html=True)
         st.markdown('<h1 class="big-font">Conversion Doble Precisión 64bits</h1>', unsafe_allow_html=True)
         
-        # Add a text input
-        st.markdown("""
-        <style>
-        div[class*="stNumberInput"] label {
-            font-size: 26px;
-            color: #000000;
-            }
-        }
-        </style>
-        """, unsafe_allow_html=True)
+        # Instrucciones de uso
+        instruciones_doble_precision = f'''
+            <h3>Para convertir un número a (doble presición), sigue estos pasos:</h3>
+            <ol>
+                <li>Escribe el número que deseas convertir en el input.</li>
+                <li>Despues oprime el boton calcular.</li>
+                <li>Y te retornara los resultados obtenidos de la conversion IEEE754 doble.</li>
+            </ol>
+        '''
+        st.sidebar.markdown(instruciones_doble_precision, unsafe_allow_html=True)
         
         # Add a text input for decimal
         decimal_input = st.text_input("Ingresar Numero:",value=0, key=5)
@@ -163,16 +165,17 @@ def display_app_inteface_conversor_bases_ieee754():
         """, unsafe_allow_html=True)
         st.markdown('<h1 class="big-font">Conversion Estandar a Decimal Presición Simple 32bits:</h1>', unsafe_allow_html=True)
 
-        # Add a text input
-        st.markdown("""
-        <style>
-        div[class*="stNumberInput"] label {
-            font-size: 26px;
-            color: #000000;
-            }
-        }
-        </style>
-        """, unsafe_allow_html=True)
+        # Instrucciones de uso
+        instruciones_estandar_simple_precision = f'''
+            <h3>Para convertir un a estandar simple, sigue estos pasos:</h3>
+            <ol>
+                <li>Escribe el signo en el input correspondiente que equivale a 0 o 1.</li>
+                <li>Escribe el exponente en el input correspondiente.</li>
+                <li>Escribe la mantissa en el input correspondiente.</li>
+                <li>Y te retornara los resultados obtenidos de la conversion IEEE754 Estandar simple</li>
+            </ol>
+        '''
+        st.sidebar.markdown(instruciones_estandar_simple_precision, unsafe_allow_html=True)
 
         # add form for input binary number simple precision 32bits        
         st.form(key='my_form_32')
@@ -236,16 +239,17 @@ def display_app_inteface_conversor_bases_ieee754():
         """, unsafe_allow_html=True)
         st.markdown('<h1 class="big-font">Conversion Estandar a Decimal Presición Doble 64bits:</h1>', unsafe_allow_html=True)
 
-        # Add a text input
-        st.markdown("""
-        <style>
-        div[class*="stNumberInput"] label {
-            font-size: 26px;
-            color: #000000;
-            }
-        }
-        </style>
-        """, unsafe_allow_html=True)
+        # Instrucciones de uso
+        instruciones_estandar_doble_precision = f'''
+            <h3>Para convertir un a estandar doble, sigue estos pasos:</h3>
+            <ol>
+                <li>Escribe el signo en el input correspondiente que equivale a 0 o 1.</li>
+                <li>Escribe el exponente en el input correspondiente.</li>
+                <li>Escribe la mantissa en el input correspondiente.</li>
+                <li>Y te retornara los resultados obtenidos de la conversion IEEE754 Estandar doble</li>
+            </ol>
+        '''
+        st.sidebar.markdown(instruciones_estandar_doble_precision, unsafe_allow_html=True)
 
         # add form for input binary number doble precision 64bits        
         st.form(key='my_form_64')

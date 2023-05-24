@@ -110,6 +110,30 @@ def ajuste_curvas_minimos_cuadrados(x, y, grado=6):
 
 
 def main():
+
+
+    # Instrucciones de uso
+    instrucciones_minimos_cuadrados = """
+        <h1>Instrucciones de uso: Método de Mínimos Cuadrados</h1>
+
+        <h2>Descripción</h2>
+        <p>El método de mínimos cuadrados es una técnica utilizada para encontrar la mejor aproximación de una relación funcional entre dos conjuntos de datos. Este método se utiliza comúnmente para ajustar una línea recta o una curva a un conjunto de puntos, minimizando la suma de los errores cuadrados entre los puntos y la línea o curva ajustada.</p>
+
+        <h2>Procedimiento</h2>
+        <p>A continuación se detalla el procedimiento general para aplicar el método de mínimos cuadrados:</p>
+        <ol>
+            <li>Recolecta los datos en dos conjuntos: las variables independientes (x) y las variables dependientes (y).</li>
+            <li>Representa los datos en un gráfico de dispersión para visualizar la relación entre las variables.</li>
+            <li>Determina el tipo de función que mejor se ajusta a los datos. Algunos ejemplos comunes incluyen una línea recta (regresión lineal) o una curva de grado superior (regresión polinómica).</li>
+            <li>Presiona el boton "Calcular" y obtendras los resultados.</li>
+        </ol>
+
+        <h2>Consideraciones adicionales</h2>
+        <p>El método de mínimos cuadrados puede extenderse a casos más complejos, como ajustes polinómicos de grado superior o ajustes no lineales. Además, ten en cuenta que existen software y herramientas en línea que pueden ayudarte a realizar cálculos de mínimos cuadrados de manera más eficiente y precisa.</p>
+    """
+    st.sidebar.markdown(instrucciones_minimos_cuadrados, unsafe_allow_html=True)
+
+
     st.title("Ajuste de Curvas por Mínimos Cuadrados")
 
     # Ingreso de datos

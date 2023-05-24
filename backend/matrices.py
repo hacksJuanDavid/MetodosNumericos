@@ -18,6 +18,7 @@
 import numpy as np
 import streamlit as st
 import sympy as sp
+from numpy.linalg import inv
 
 # Funcion para sumar matrices
 
@@ -436,8 +437,24 @@ def matrixChecker(matrix):
 def createMatrices():
     matrices = {}
 
-    st.write('Ingrese las dimensiones y los valores de las matrices')
+    # Instrucciones de uso
+    instruccion_creador_matrices = """
+        <h1>Instrucciones de uso: Creador de matrices</h1>
 
+        <h2>Descripción</h2>
+        <p>Puedes crear sin limite las matrices, las puedes actualizar cambiando los valores de los inputs, pero si refrescas la aplicacion no se guardara los datos agregados.</p>
+
+        <h2>Procedimiento</h2>
+        <p>A continuación se detalla el procedimiento para crear matrices:</p>
+        <ol>
+            <li>Elige un nombre para la matrix y ingresalo en el input correspondiente.</li>
+            <li>Asigna un valor numerico para las filas y columnas de tu matrix.</li>
+            <br>
+        </ol>
+    """
+    st.sidebar.markdown(instruccion_creador_matrices, unsafe_allow_html=True)
+
+    st.subheader('Ingrese las dimensiones y los valores de las matrices')
     # Contador de matrices
     matrix_count = 1
 
@@ -500,7 +517,9 @@ def createMatrices():
     # Devolver el diccionario de matrices
     return matrices
 
-# Función para calcular la operación
+
+def convertir_a_float(matriz):
+    return np.array(matriz, dtype=np.float64)
 
 
 def calcular_operacion(operacion, matrices):

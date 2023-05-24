@@ -72,6 +72,7 @@ def main():
     st.subheader(
         "Deben ser minimo 2 funciones para que se pueda usar el graficador multiple.")
     st.text("Por el momento solo se pueden graficar 4 funciones.")
+    st.text("Las funciones disponibles son: +, -, *, /, ^, **,sin(x),cos(x),tan(x),sqrt(x),exp(x),log(x)")
     st.error("Tener en cuenta que va salir un error pero es mientras lo arreglo que es para manejar los vacios en los inputs.")
 
     # Leer las ecuaciones

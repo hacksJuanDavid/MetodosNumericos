@@ -52,14 +52,14 @@ def display_app_inteface_sidebar_menu():
     display_app_interface_logo()
 
     # Create menu items
-    menu_items = ["Home", "🗡️Conversor Bases", "⚔️Conversor Bases IEEE754", "🛡️Biseccion y regla falsa", "🪛Método de la secante", "🔧 Derivadas", "🛠️Raices de polinomios",
+    menu_items = ["🏛️Home", "🗡️Conversor Bases", "⚔️Conversor Bases IEEE754", "🛡️Biseccion y regla falsa", "🪛Método de la secante", "🔧 Derivadas", "🛠️Raices de polinomios",
                   "🔦Newton Raphson", "⛏️Integración por trapecio y rectángulo", "🔨Integración por Simpson 1/3", "🔧Integración por Simpson 3/8", "🔩Integración por Montecarlo",
-                  "📈Multiple Graficador","Matrices","Minimos Cuadrados"
+                  "📈Multiple Graficador","⌨️Matrices","🧬Minimos Cuadrados"
                   ]
 
     # Create menu icons
     menu_icons = ["house", "calculator", "calculator", "calculator", "calculator", "calculator",
-                  "calculator", "calculator", "calculator", "calculator", "calculator", "calculator","graficador","calculator","calculator"]
+                  "calculator", "calculator", "calculator", "calculator", "calculator", "calculator","graficator","calculator","calculator"]
 
     # Create a sidebar menu
     selected = st.sidebar.selectbox(
@@ -70,7 +70,7 @@ def display_app_inteface_sidebar_menu():
     )
 
    # Display the selected menu item
-    if selected == "Home":
+    if selected == "🏛️Home":
         display_home_page()
     elif selected == "🗡️Conversor Bases":
         display_app_inteface_conversor_bases()
@@ -96,9 +96,9 @@ def display_app_inteface_sidebar_menu():
         display_integrateMontecarlo()
     elif selected == "📈Multiple Graficador":
         display_m_graficator()
-    elif selected == "Matrices":
+    elif selected == "⌨️Matrices":
         display_matrices()
-    elif selected == "Minimos Cuadrados":
+    elif selected == "🧬Minimos Cuadrados":
         display_ajusteDeCurvasPorMinimosCuadrados()
 
 # Create a controller displays interface of the app

@@ -89,10 +89,40 @@ def plot_function(f, a, b, x0, x1, raiz):
             color="#7f7f7f"
         )
     )
-    st.plotly_chart(fig,use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True)
 
 
 def main():
+    # Instructions de uso
+    instructiones_metodo_secante = """
+        <h1>Instrucciones de uso: Método de la Secante</h1>
+
+        <h2>Descripción</h2>
+        <p>El método de la secante es un algoritmo numérico utilizado para encontrar las raíces de una función no lineal. En lugar de utilizar una única recta tangente como en el método de Newton, el método de la secante utiliza una secante, es decir, una línea que pasa por dos puntos cercanos a la raíz deseada.</p>
+
+        <h2>Procedimiento</h2>
+        <p>A continuación se detalla el procedimiento para aplicar el método de la secante:</p>
+        <ol>
+            <li>Las funciones disponibles son: +, -, *, /, ^, **,sin(x),cos(x),tan(x),sqrt(x),exp(x),log(x)</li>
+            <li>Elige dos puntos iniciales cercanos a la raíz deseada que serian x0 y x1.</li>
+            <li>El intervalo [a, b] son valores de ajuste para la grafica</li>
+            <li>La tolerancia debe ser un número positivo.</li>
+            <li>Presiona el botón "Calcular".</li>
+        </ol>
+
+        <h2>Criterios de Convergencia</h2>
+        <p>El método de la secante puede utilizar diferentes criterios de convergencia para determinar cuándo se ha alcanzado una solución satisfactoria. Algunos de los criterios comunes incluyen:</p>
+        <ul>
+            <li>Alcanzar una tolerancia o diferencia mínima entre dos aproximaciones sucesivas.</li>
+            <li>Alcanzar un número máximo de iteraciones predefinidas.</li>
+            <li>Comprobar si la función evaluada en la aproximación actual es suficientemente cercana a cero.</li>
+        </ul>
+
+        <h2>Consideraciones adicionales</h2>
+        <p>El método de la secante puede requerir un número variable de iteraciones para converger a una solución, dependiendo de la función y los puntos iniciales seleccionados. Además, es posible que el método no converja si los puntos iniciales están demasiado lejos de la raíz o si hay singularidades en la función.</p>
+    """
+    st.sidebar.markdown(instructiones_metodo_secante, unsafe_allow_html=True)
+
     # Title
     st.title("Método de la Secante")
     # Input equation
